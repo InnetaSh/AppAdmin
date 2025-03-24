@@ -11,7 +11,7 @@
             <TabItem Header="TabItem" HorizontalAlignment="Left" Width="12">
                 <TabItem.Template>
                     <ControlTemplate>
-                        <Button x:Name="addCategory" Click="">+</Button>
+                        <Button x:Name="addCategory" Click="addCategory_Click">+</Button>
                     </ControlTemplate>
                 </TabItem.Template>
             </TabItem>
