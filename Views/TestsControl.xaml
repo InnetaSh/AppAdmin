@@ -8,20 +8,57 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="29*"/>
-            <ColumnDefinition Width="130*"/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="240"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.Background>
             <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
         </Grid.Background>
-        <Grid Margin="0,0,0,45">
-            <ListBox x:Name="TestList" SelectionChanged="TestList_SelectionChanged">
-                <Button Content="Добавить" Click="Button_Click"/>
-            </ListBox>
-        </Grid>
-        <StackPanel x:Name="pnTestList" Grid.Column="1" Grid.ColumnSpan="2"/>
-        <Button x:Name="btAddQuestion" Grid.Column="1" Content="Добавить вопрос" HorizontalAlignment="Left" Margin="25,10,0,0" VerticalAlignment="Top" Width="115" Click="btAddQuestion_Click"/>
+        <Grid Margin="0,0,0,15" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <ListBox x:Name="TestList" SelectionChanged="TestList_SelectionChanged" Grid.Row="0">
 
+            </ListBox>
+            <Button Content="Добавить тест" 
+                Click="Button_Click" 
+                Margin="15,15,15,0"
+                HorizontalAlignment="Stretch"
+                Grid.Row="1" />
+            <Button  x:Name="btdelTest"
+                 Content="Удалить тест" 
+                 Click="btnDelTest_Click" 
+                 Margin="15,5,15,0"
+                 HorizontalAlignment="Stretch"
+                 Grid.Row="2" 
+                 Visibility="Collapsed" />
+            <Button  x:Name="bthangeNameTest"
+                 Content="Переименовать тест" 
+                 Click="btnChangeNameTest_Click" 
+                 Margin="15,5,15,0"
+                 HorizontalAlignment="Stretch"
+                 Grid.Row="3" 
+                 Visibility="Collapsed" />
+        </Grid>
+        <Grid Margin="0,0,0,15" Grid.Column="1" ShowGridLines="False"> 
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <StackPanel x:Name="pnTestList" Grid.Row="0"/>
+            <Button x:Name="btAddQuestion" 
+                Grid.Row="1"
+                Content="Добавить вопрос" 
+                HorizontalAlignment="Right" 
+                Margin="25,10,5,5" 
+                VerticalAlignment="Top" 
+                Width="110" 
+                Click="btAddQuestion_Click"
+                Visibility="Collapsed" />
+        </Grid>
     </Grid>
 </UserControl>

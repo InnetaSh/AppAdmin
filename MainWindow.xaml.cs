@@ -27,6 +27,8 @@ namespace AppAdmin
         private void addCategory_Click(object sender, RoutedEventArgs e)
         {
             var addWin = new AddWindow() { Owner = this };
+            addWin.Title = "Добавить категорию";
+            addWin.tbName.Text = "Название категории";
             if (addWin.ShowDialog().Value)
             {
                 var newCategory = new Models.Category() { Title = addWin.tbName.Text };
@@ -34,13 +36,19 @@ namespace AppAdmin
 
                 var ti = new TabItem() { Header = addWin.tbName.Text, Content = new TestsControl(), Tag = newCategory };
                 Categories.Items.Add(ti);
-                Categories.SelectedIndex = Categories.Items.Count - 1;
+                if (Categories.Items.Count > 0)
+                {
+                    Categories.SelectedIndex = Categories.Items.Count - 1;
+                }
             }
         }
 
         private void Categories_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            App.Admins[0].SetSelectedCategory(Categories.SelectedIndex - 1);
+            if (Categories.SelectedIndex >= 0 && Categories.SelectedIndex < Categories.Items.Count)
+            {
+                App.Admins[0].SetSelectedCategory(Categories.SelectedIndex);
+            }
         }
     }
 }

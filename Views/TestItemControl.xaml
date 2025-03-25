@@ -5,29 +5,56 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:AppAdmin"
              mc:Ignorable="d" 
-             d:DesignHeight="170" d:DesignWidth="800">
-    <Grid Margin="0,0,0,0">
-        <Grid Height="165" VerticalAlignment="Bottom">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="4*"/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <Grid.Background>
-                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
-            </Grid.Background>
-            <TextBox x:Name="tbTest" HorizontalAlignment="Center" Margin="0,10,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="620" Height="110" IsEnabled="False"/>
+             d:DesignHeight="150" d:DesignWidth="560">
+    <Border BorderBrush="#FFB0B0B0" BorderThickness="1" CornerRadius="2" Padding="0">
+        <Grid Margin="0,0,0,0"  x:Name="gridContent" GotFocus="GridContent_GotFocus" LostFocus="GridContent_LostFocus">
+            <Grid Height="150" VerticalAlignment="Bottom"  GotFocus="GridContent_GotFocus" LostFocus="GridContent_LostFocus">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.Background>
+                    <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
+                </Grid.Background>
+                <Grid  Grid.Column="0" ShowGridLines="False" Margin="0,5,0,5"  >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="4*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
 
-            <Button x:Name="SaveOrNextBtn" Grid.Column="1" Content="Сохранить" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Width="75" Click="SaveOrNextBtn_Click"/>
-            <Button x:Name="delTestBtn" Grid.Column="1" Content="Удалить" HorizontalAlignment="Center" Margin="0,45,0,0" VerticalAlignment="Top" Width="76" Click="delTestBtn_Click"/>
-            <StackPanel x:Name="pnAnswers" Margin="10,125,8,5" Orientation="Horizontal">
-                <RadioButton Content="RadioButton"/>
-                <RadioButton Content="RadioButton" Margin="10,0,0,0" IsChecked="False"/>
-            </StackPanel>
-            <Button x:Name="addAnswerBtn" Grid.Column="1" Content="Добавить ответ" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Click="addAnswerBtn_Click"/>
-            <Button x:Name="delAnswerBtn" Grid.Column="1" Content="Удалить ответ
-                    " HorizontalAlignment="Center" Margin="0,133,0,0" VerticalAlignment="Top" Width="100" Click="delAnswerBtn_Click"/>
-            <Button x:Name="changeAnswerBtn" Grid.Column="1" Content="Изменить ответ&#xD;&#xA;" HorizontalAlignment="Center" Margin="0,97,0,0" VerticalAlignment="Top" Width="100" Click="delAnswerBtn_Click" Height="23"/>
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox x:Name="tbTest" HorizontalAlignment="Stretch" Margin="0,5,0,0" 
+                              TextWrapping="Wrap" VerticalAlignment="Top" Width="450" Height="140" 
+                              IsEnabled="True" Grid.Column="0"/>
+
+
+                        <Image x:Name="imageInTextBox" Width="140" Height="140" 
+                            HorizontalAlignment="Right" VerticalAlignment="Bottom" 
+                            Margin="0,5,0,0" Visibility="Collapsed" Grid.Column="1"/>
+                    </Grid>
+
+                    <StackPanel x:Name="pnAnswers" Margin="10,5,8,5" Orientation="Horizontal" Grid.Row="1"/>
+
+
+
+                </Grid>
+                <Grid  Grid.Column="1" ShowGridLines="False" Margin="0,5,0,5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Button x:Name="changeOrNextBtn" Grid.Row="1" Content="Изменить" HorizontalAlignment="Center" Margin="0,5,0,5" VerticalAlignment="Top" Width="100" Click="ChangeOrNextBtn_Click" Visibility="Collapsed"/>
+                    <Button x:Name="delTestBtn" Grid.Row="2" Content="Удалить" HorizontalAlignment="Center" Margin="0,5,0,5" VerticalAlignment="Top" Width="100" Click="delTestBtn_Click" Visibility="Collapsed"/>
+
+                </Grid>
+            </Grid>
         </Grid>
-
-    </Grid>
+    </Border>
 </UserControl>
