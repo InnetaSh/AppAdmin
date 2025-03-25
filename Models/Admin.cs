@@ -13,8 +13,15 @@ namespace AppAdmin.Models
 
         public void SetSelectedCategory(int index)
         {
-            Categories.ForEach(x => x.IsSelected = false);
-            Categories[index].IsSelected = true;
+            if (index >= 0 && index < Categories.Count)
+            {
+                Categories.ForEach(x => x.IsSelected = false);
+                Categories[index].IsSelected = true;
+            }
+            else
+            {
+                Console.WriteLine("Индекс выходит за пределы списка Categories.");
+            }
         }
     }
 }
