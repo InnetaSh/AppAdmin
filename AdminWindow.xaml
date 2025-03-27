@@ -6,28 +6,35 @@
         xmlns:local="clr-namespace:AppAdmin"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" WindowStartupLocation="CenterScreen"
-        Loaded="Window_Loaded">
+        Loaded="Window_Loaded"
+        Closing="Window_Closing">
     <!--Closing="Window_Closing"-->
     <Grid>
         <TabControl x:Name="Categories" SelectionChanged="Categories_SelectionChanged">
-            <TabItem Header="TabItem" HorizontalAlignment="Left" Width="30">
+            <TabItem HorizontalAlignment="Left" Width="40" Height="40">
                 <TabItem.Template>
                     <ControlTemplate>
-                        <Button x:Name="addCategory" Click="addCategory_Click" Width="30" FontSize="16" FontWeight="Bold">-----</Button>
+                        <Button x:Name="addCategory" Click="addCategory_Click" Width="30" FontSize="16" FontWeight="Bold" Margin="5,5,5,5">
+                            <Image Source="img/icon_back.png" Stretch="Fill"/>
+                        </Button>
                     </ControlTemplate>
                 </TabItem.Template>
             </TabItem>
-            <TabItem Header="TabItem" HorizontalAlignment="Left" Width="30">
+
+            <TabItem HorizontalAlignment="Left" Width="40">
                 <TabItem.Template>
                     <ControlTemplate>
-                        <Button x:Name="addCategory" Click="addCategory_Click" Width="30" FontSize="16" FontWeight="Bold">+</Button>
+                        <Button x:Name="saveCategory" Click="SaveDataToDatabase" Width="30" FontSize="16" FontWeight="Bold" Margin="5,5,5,5">
+                            <Image Source="img/icon_save.png" Stretch="Fill"/>
+                        </Button>
                     </ControlTemplate>
                 </TabItem.Template>
             </TabItem>
-            <TabItem>
+            <TabItem  HorizontalAlignment="Left" Width="40">
                 <TabItem.Template>
                     <ControlTemplate>
-                        <Button x:Name="saveCategory" Click="SaveDataToDatabase" Width="30" FontSize="16" FontWeight="Bold">S</Button>
+                        <Button x:Name="addCategory" Click="addCategory_Click" Width="30" FontSize="16" FontWeight="Bold" Margin="5,5,5,5">
+                            <Image Source="img/icon_add.png" Stretch="Fill"/> </Button>
                     </ControlTemplate>
                 </TabItem.Template>
             </TabItem>

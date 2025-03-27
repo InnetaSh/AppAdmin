@@ -275,7 +275,25 @@ namespace AppAdmin
             Categories.Items.Add(ti);
         }
 
-      
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show("Хотите сохранить изменения?", "Сохранить", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                SaveDataToDatabase(null,null);
+            }
+            else if (result == MessageBoxResult.No)
+            {
+                
+            }
+            else
+            {
+                e.Cancel = true;
+            }
+        }
+
+     
     }
 
 }
