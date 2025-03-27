@@ -1,6 +1,7 @@
 ﻿using AppAdmin.Models;
 using AppAdmin.Views;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Text.RegularExpressions;
 
 namespace AppAdmin
 {
@@ -22,34 +24,76 @@ namespace AppAdmin
     /// </summary>
     public partial class TestItemChange : Window
     {
-        private string _text;
-        private ImageSource _imageSource;
-        private List<RadioButton> _radioButtons;
-        public TestItemChange(string text, ImageSource imageSource, List<RadioButton> radioButtons)
+        private Question _quest;
+        public TestItemChange(Question quest)
         {
             InitializeComponent();
+            changeAnswerBtn.Visibility = Visibility.Collapsed;
+            delAnswerBtn.Visibility = Visibility.Collapsed;
 
-            _text = text;
-            _imageSource = imageSource;
-            _radioButtons = radioButtons;
 
-            if (_imageSource != null)
+
+            _quest = quest;
+
+            if (!string.IsNullOrEmpty(_quest.ImagePath))
             {
-                imageInTextBox.Source = _imageSource;
-                imageInTextBox.Visibility = Visibility.Visible;
+                try
+                {
+                    imageInTextBox.Source = new BitmapImage(new Uri(_quest.ImagePath));
+                    imageInTextBox.Visibility = Visibility.Visible;
+                }
+                catch (UriFormatException ex)
+                {
+                    MessageBox.Show("Неверный формат пути к изображению: " + ex.Message);
+                }
             }
             else
             {
                 imageInTextBox.Visibility = Visibility.Collapsed;
             }
-            foreach (var rb in _radioButtons)
+            foreach (var ans in _quest.Answers)
             {
-                RadioButton newRadioButton = new RadioButton() { Margin = new Thickness(5, 0, 0, 0) };
-                newRadioButton.Content = rb.Content;
-                newRadioButton.Checked += RadioButton_Checked;
-                pnAnswers.Children.Add(newRadioButton);
+
+                if (_quest.IsMultiAnswers)
+                {
+                    CheckBox chBox = new CheckBox() { Margin = new Thickness(5, 0, 0, 0) };
+                    chBox.Content = ans.AnswerText;
+                    if (ans.IsCorrect)
+                    {
+                        chBox.Background = new SolidColorBrush(Colors.Green);
+                    }
+                    else
+                    {
+                        chBox.Background = new SolidColorBrush(Colors.Red);
+                    }
+                    chBox.Tag = ans;
+                    chBox.IsChecked = ans.IsCorrect;
+                    chBox.Checked += Element_Checked;
+
+                    pnAnswers.Children.Add(chBox);
+                }
+                else
+                {
+
+                    RadioButton rbButton = new RadioButton() { Margin = new Thickness(5, 0, 0, 0) };
+                    rbButton.Content = ans.AnswerText;
+                    if (ans.IsCorrect)
+                    {
+                        rbButton.Background = new SolidColorBrush(Colors.Green);
+                    }
+                    else
+                    {
+                        rbButton.Background = new SolidColorBrush(Colors.Red);
+                    }
+                    rbButton.Tag = ans;
+                    rbButton.IsChecked = ans.IsCorrect;
+                    rbButton.Checked += Element_Checked;
+                    pnAnswers.Children.Add(rbButton);
+                }
             }
-            tbTest.Text = _text;
+            tbTest.Text = _quest.QuestionText;
+            tbWeight.Text = _quest.Weight.ToString();
+            tbIsMultiAnswers.IsChecked = _quest.IsMultiAnswers ? (bool?)true : (bool?)false;
         }
 
         private void saveBtn_Click(object sender, RoutedEventArgs e)
@@ -61,53 +105,123 @@ namespace AppAdmin
 
         private void addAnswerBtn_Click(object sender, RoutedEventArgs e)
         {
-            var addWin = new AddWindow() { WindowStartupLocation = WindowStartupLocation.CenterScreen };
+            var addWin = new AddAnswer(_quest) { WindowStartupLocation = WindowStartupLocation.CenterScreen };
             addWin.Title = "Добавить ответ";
             addWin.tbName.Text = "";
 
+
             if (addWin.ShowDialog().Value)
             {
-                RadioButton newRadioButton = new RadioButton() { Margin = new Thickness(5, 0, 0, 0) };
-                newRadioButton.Content = addWin.tbName.Text;
-                newRadioButton.Checked += RadioButton_Checked;
+                if (tbIsMultiAnswers.IsChecked == true)
+                {
+                    CheckBox chBox = new CheckBox() { Margin = new Thickness(5, 0, 0, 0) };
+                    chBox.Content = addWin.tbName.Text;
+                
+                    if (addWin.trueRB.IsChecked == true)
+                    {
+                        chBox.Background = new SolidColorBrush(Colors.Green);
+                    }
+                    else
+                    {
+                        chBox.Background = new SolidColorBrush(Colors.Red);
+                    }
+                    chBox.Checked += Element_Checked;
 
-                pnAnswers.Children.Add(newRadioButton);
+                    pnAnswers.Children.Add(chBox);
+                }
+                else { 
+
+                    RadioButton rbButton = new RadioButton() { Margin = new Thickness(5, 0, 0, 0) };
+                    rbButton.Content = addWin.tbName.Text;
+                    if (addWin.trueRB.IsChecked == true)
+                    {
+                        rbButton.Background = new SolidColorBrush(Colors.Green);
+                    }
+                    else
+                    {
+                        rbButton.Background = new SolidColorBrush(Colors.Red);
+                    }
+                    rbButton.Checked += Element_Checked;
+
+                    pnAnswers.Children.Add(rbButton);
+                 }
             }
         }
 
-        private void RadioButton_Checked(object sender, RoutedEventArgs e)
+        private void Element_Checked(object sender, RoutedEventArgs e)
         {
             UpdateVisibleBtnState();
         }
 
         private void UpdateVisibleBtnState()
         {
-            var btnVisibleState = pnAnswers.Children.Cast<UIElement>().Any(x => x is RadioButton rb && (rb.IsChecked ?? false));
+            var btnVisibleState = pnAnswers.Children.Cast<UIElement>()
+                                .Any(x => x is FrameworkElement fe && 
+                                ((fe is RadioButton rb && (rb.IsChecked ?? false)) || 
+                                (fe is CheckBox cb && (cb.IsChecked ?? false))));
+
             delAnswerBtn.Visibility = btnVisibleState ? Visibility.Visible : Visibility.Collapsed;
             changeAnswerBtn.Visibility = btnVisibleState ? Visibility.Visible : Visibility.Collapsed;
         }
 
 
+
+
         private void delAnswerBtn_Click(object sender, RoutedEventArgs e)
         {
-            var checkRB = pnAnswers.Children.Cast<UIElement>().FirstOrDefault(x => x is RadioButton rb && (rb?.IsChecked ?? false));
-            if (checkRB != null)
-                pnAnswers.Children.Remove(checkRB);
+            var checkElement = pnAnswers.Children.Cast<UIElement>()
+                              .FirstOrDefault(x => x is FrameworkElement fe &&
+                              ((fe is RadioButton rb && (rb.IsChecked ?? false)) ||
+                              (fe is CheckBox cb && (cb.IsChecked ?? false))));
+
+            if (checkElement != null)
+            {
+                pnAnswers.Children.Remove(checkElement);
+            }
             UpdateVisibleBtnState();
         }
 
         private void changeAnswerBtn_Click(object sender, RoutedEventArgs e)
         {
-            var addWin = new AddWindow() { WindowStartupLocation = WindowStartupLocation.CenterScreen };
-            addWin.Title = "Изменить ответ";
-            addWin.btAdd.Content = "Изменить";
-            addWin.tbName.Text = "";
+            var selectedAnswer = pnAnswers.Children.OfType<UIElement>()
+                                .FirstOrDefault(x =>
+                                (x is RadioButton rb && (rb.IsChecked ?? false)) ||
+                                (x is CheckBox cb && (cb.IsChecked ?? false))) as FrameworkElement;
 
-            if (addWin.ShowDialog().Value)
+            Answer answer = selectedAnswer?.Tag as Answer;
+
+            var changeWin = new ChangeAnswer(_quest, answer) { WindowStartupLocation = WindowStartupLocation.CenterScreen };
+       
+
+            if (changeWin.ShowDialog().Value)
             {
-                var checkRB = pnAnswers.Children.Cast<UIElement>().FirstOrDefault(x => x is RadioButton rb && (rb.IsChecked ?? false)) as RadioButton;
-                if (checkRB != null)
-                    checkRB.Content = addWin.tbName.Text;
+                    if (selectedAnswer is RadioButton rb)
+                    {
+                    rb.Content = changeWin.tbChangeName.Text;
+                    rb.IsChecked = changeWin.trueRB.IsChecked;
+                    if (changeWin.trueRB.IsChecked == true)
+                    {
+                        rb.Background = new SolidColorBrush(Colors.Green);
+                    }
+                    else
+                    {
+                        rb.Background = new SolidColorBrush(Colors.Red);
+                    }
+
+                }
+                    else if (selectedAnswer is CheckBox cb)
+                    {
+                    cb.Content = changeWin.tbChangeName.Text;
+                    cb.IsChecked = changeWin.trueRB.IsChecked;
+                    if (changeWin.trueRB.IsChecked == true)
+                    {
+                        cb.Background = new SolidColorBrush(Colors.Green);
+                    }
+                    else
+                    {
+                        cb.Background = new SolidColorBrush(Colors.Red);
+                    }
+                }
             }
         }
 
@@ -126,13 +240,89 @@ namespace AppAdmin
             if (openFileDialog.ShowDialog() == true)
             {
                 string filePath = openFileDialog.FileName;
+                _quest.ImagePath = filePath;
                 var image = new BitmapImage(new Uri(filePath));
 
-                
                 imageInTextBox.Source = image;
+               
 
                 imageInTextBox.Visibility = Visibility.Visible;
-                tbTest.Width = 250; 
+                this.Height = 350;
+            }
+        }
+        private void delImgBtn_Click(object sender, RoutedEventArgs e)
+        {
+            imageInTextBox.Visibility = Visibility.Collapsed;
+            _quest.ImagePath = "";
+            this.Height = 250;
+        }
+
+        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            AdjustHeight();
+        }
+
+        private void AdjustHeight()
+        {
+
+            double contentHeight = 0;
+
+            contentHeight += tbTest.ActualHeight;
+            contentHeight += pnAnswers.ActualHeight;
+
+            if (imageInTextBox.Visibility == Visibility.Visible)
+            {
+                contentHeight += imageInTextBox.ActualHeight;
+                contentHeight -= tbTest.ActualHeight;
+            }
+
+            this.Height = contentHeight + 20;
+        }
+
+        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+
+        private void tbIsMultiAnswers_Checked(object sender, RoutedEventArgs e)
+        {
+            bool isMultiAnswersChecked = tbIsMultiAnswers.IsChecked ?? false;
+
+            var elementsToChange = pnAnswers.Children.Cast<UIElement>().ToList();
+
+            foreach (var element in elementsToChange)
+            {
+                if (isMultiAnswersChecked && element is RadioButton rb)
+                {
+                    var content = rb.Content;
+                    var background = rb.Background;
+                    var isChecked = rb.IsChecked;
+                    var tag = rb.Tag;
+
+                    pnAnswers.Children.Remove(rb);
+
+                    var chBox = new CheckBox() { Content = content, Background = background, Margin = new Thickness(5, 0, 0, 0), Tag = tag };
+                    chBox.IsChecked = isChecked;
+                    chBox.Checked += Element_Checked; 
+
+                    pnAnswers.Children.Add(chBox);
+                }
+                else if (!isMultiAnswersChecked && element is CheckBox cb)
+                {
+                    var content = cb.Content;
+                    var background = cb.Background;
+                    var isChecked = cb.IsChecked;
+                    var tag = cb.Tag;
+
+                    pnAnswers.Children.Remove(cb);
+
+                    var rbButton = new RadioButton() { Content = content, Background = background, Margin = new Thickness(5, 0, 0, 0), Tag = tag };
+                    rbButton.IsChecked = isChecked;
+                    rbButton.Checked += Element_Checked; 
+
+                    pnAnswers.Children.Add(rbButton);
+                }
             }
         }
     }

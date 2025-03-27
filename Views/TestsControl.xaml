@@ -5,7 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:AppAdmin"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800"
+             Loaded="TestsControl_Loaded">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="240"/>
@@ -25,7 +26,7 @@
 
             </ListBox>
             <Button Content="Добавить тест" 
-                Click="Button_Click" 
+                Click="btnAddTest_Click" 
                 Margin="15,15,15,0"
                 HorizontalAlignment="Stretch"
                 Grid.Row="1" />
@@ -34,31 +35,33 @@
                  Click="btnDelTest_Click" 
                  Margin="15,5,15,0"
                  HorizontalAlignment="Stretch"
-                 Grid.Row="2" 
-                 Visibility="Collapsed" />
+                 Grid.Row="2" />
             <Button  x:Name="bthangeNameTest"
-                 Content="Переименовать тест" 
+                 Content="Изменить инфо про тест" 
                  Click="btnChangeNameTest_Click" 
                  Margin="15,5,15,0"
                  HorizontalAlignment="Stretch"
-                 Grid.Row="3" 
-                 Visibility="Collapsed" />
+                 Grid.Row="3"  />
         </Grid>
         <Grid Margin="0,0,0,15" Grid.Column="1" ShowGridLines="False"> 
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <StackPanel x:Name="pnTestList" Grid.Row="0"/>
+            <TextBlock  x:Name="tbTime"  Margin="5,0,5,5" >Время:</TextBlock>
+            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                <StackPanel x:Name="pnTestList" Grid.Row="1"  Margin="5,20,5,5"/>
+            </ScrollViewer>
+           
             <Button x:Name="btAddQuestion" 
-                Grid.Row="1"
+                Grid.Row="2"
                 Content="Добавить вопрос" 
                 HorizontalAlignment="Right" 
                 Margin="25,10,5,5" 
                 VerticalAlignment="Top" 
                 Width="110" 
-                Click="btAddQuestion_Click"
-                Visibility="Collapsed" />
+                Click="btAddQuestion_Click" />
         </Grid>
     </Grid>
 </UserControl>

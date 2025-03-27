@@ -3,15 +3,40 @@ CREATE DATABASE TestProjectForWPF
 USE TestProjectForWPF
 
 
+---------------------------категории:----------------------------------------
+CREATE TABLE Categories                  
+(
+   CategoryId    INT IDENTITY(1,1) PRIMARY KEY,
+   CategoryName   NVARCHAR(100) NOT NULL
+)
 
+INSERT INTO Categories (CategoryName)
+VALUES
+('Фильмы');
+
+
+
+ALTER TABLE Categories
+ADD TimeSec INT NOT NULL DEFAULT 300;
+
+SELECT * FROM Categories
+DROP TABLE Categories
 ---------------------------тесты:----------------------------------------
 CREATE TABLE Tests                  
 (
    TestId    INT IDENTITY(1,1) PRIMARY KEY,
+   CategoryId  INT NOT NULL, 
+   FOREIGN KEY (CategoryId ) REFERENCES Categories(CategoryId) ON DELETE CASCADE,
    TestName   NVARCHAR(100) NOT NULL,
-   TestDescription    NVARCHAR(100) NOT NULL
+   TestDescription    NVARCHAR(100) 
 )
 
+
+INSERT INTO Tests (CategoryId, TestName, TestDescription)
+VALUES
+((SELECT CategoryId FROM Categories WHERE CategoryName  = 'Фильмы' ),
+'Игра престолов',
+'Описание теста для игры "Игра престолов"');
 
 SELECT * FROM Tests
 DROP TABLE Tests
@@ -23,8 +48,18 @@ CREATE TABLE Questions
    FOREIGN KEY (TestId ) REFERENCES Tests(TestId) ON DELETE CASCADE,
    QuestionText  NVARCHAR(255) NOT NULL,
    Weight  INT NOT NULL,
-   ImagePath NVARCHAR(255) NOT NULL
+   ImagePath NVARCHAR(255) 
 )
+
+INSERT INTO Questions (TestId, QuestionText, Weight)
+VALUES
+ ((SELECT TestId FROM Tests WHERE CategoryId = (SELECT CategoryId FROM Categories WHERE CategoryName = 'Фильмы')),
+    'Хаос – это ______. - Петир Бейлиш',
+    20
+);
+
+ALTER TABLE Questions
+ADD IsMultiAnswers BIT NOT NULL DEFAULT 0; 
 
 
 SELECT * FROM Questions
@@ -39,6 +74,43 @@ CREATE TABLE Answers
    AnswerText NVARCHAR(255) NOT NULL,
    IsCorrect BIT NOT NULL 
 )
+
+INSERT INTO Answers (QuestionId, AnswerText, IsCorrect)
+VALUES
+(
+    (SELECT QuestionId FROM Questions 
+     WHERE TestId = (SELECT TestId FROM Tests 
+                     WHERE CategoryId = (SELECT CategoryId FROM Categories WHERE CategoryName = 'Фильмы'))),
+    'возможность',  
+    0               
+);
+INSERT INTO Answers (QuestionId, AnswerText, IsCorrect)
+VALUES
+(
+    (SELECT QuestionId FROM Questions 
+     WHERE TestId = (SELECT TestId FROM Tests 
+                     WHERE CategoryId = (SELECT CategoryId FROM Categories WHERE CategoryName = 'Фильмы'))),
+    'лестница',  
+    1               
+);
+INSERT INTO Answers (QuestionId, AnswerText, IsCorrect)
+VALUES
+(
+    (SELECT QuestionId FROM Questions 
+     WHERE TestId = (SELECT TestId FROM Tests 
+                     WHERE CategoryId = (SELECT CategoryId FROM Categories WHERE CategoryName = 'Фильмы'))),
+    'шанс',  
+    0               
+);
+INSERT INTO Answers (QuestionId, AnswerText, IsCorrect)
+VALUES
+(
+    (SELECT QuestionId FROM Questions 
+     WHERE TestId = (SELECT TestId FROM Tests 
+                     WHERE CategoryId = (SELECT CategoryId FROM Categories WHERE CategoryName = 'Фильмы'))),
+    'беспорядок',  
+    0               
+);
 
 
 SELECT * FROM Answers

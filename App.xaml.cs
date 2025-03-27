@@ -10,7 +10,7 @@ namespace AppAdmin
     /// </summary>
     public partial class App : Application
     {
-        internal static List<Admin> Admins = new List<Admin>();
+        internal List<Admin> Admins = new List<Admin>();
     }
 
 }

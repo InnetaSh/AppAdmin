@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace AppAdmin.Models
 {
-    internal class Answer
+    public class Answer
     {
-        public String Text { get; set; }
+        public int Id { get; set; }
+        public String AnswerText { get; set; }
+        public bool IsCorrect { get; set; }
     }
 }

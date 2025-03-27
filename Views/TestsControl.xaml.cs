@@ -22,40 +22,74 @@ namespace AppAdmin
     /// </summary>
     public partial class TestsControl : UserControl
     {
-        public TestsControl()
+        private Category _category;
+        public TestsControl(Category category)
         {
             InitializeComponent();
+            _category = category;
+            btAddQuestion.Visibility = Visibility.Collapsed;
+            bthangeNameTest.Visibility = Visibility.Collapsed;
+            btdelTest.Visibility = Visibility.Collapsed;
+
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+
+        private void TestsControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            TestList.Items.Clear();
+
+            if (_category != null && _category.Tests.Count > 0)
+            {
+                foreach (var t in _category.Tests)
+                {
+                    TestList.Items.Add(t);
+                }
+            }
+        }
+
+
+
+
+        private void btnAddTest_Click(object sender, RoutedEventArgs e)
         {
             var addWin = new AddWindow() { WindowStartupLocation = WindowStartupLocation.CenterScreen };
             addWin.Title = "Добавить тест";
             addWin.tbName.Text = "Название теста";
             if (addWin.ShowDialog().Value)
             {
-                TestList.Items.Add(new Test() { Title = addWin.tbName.Text });
+                var newTest = new Models.Test() { Title = addWin.tbName.Text };
+                TestList.Items.Add(newTest);
+                _category.Tests.Add(newTest);
             }
         }
 
         private void btAddQuestion_Click(object sender, RoutedEventArgs e)
         {
-
-            ImageSource imageSource = null;
-            List<RadioButton> radioButtons = new List<RadioButton>();
-            string text = "";
-
-            var itemChangeWin = new TestItemChange(text, imageSource, radioButtons) { WindowStartupLocation = WindowStartupLocation.CenterScreen };
+            var newQuestion = new Question();
+            var itemChangeWin = new TestItemChange(newQuestion) { WindowStartupLocation = WindowStartupLocation.CenterScreen };
 
 
             if (itemChangeWin.ShowDialog().Value)
             {
-                var ti = new TestItemControl() { };
-
-                ti.tbTest.Text = itemChangeWin.tbTest.Text;
+                var currentTest = TestList.SelectedItem as Test;
+                var questText = itemChangeWin.tbTest.Text;
                 var answerBtns = itemChangeWin.pnAnswers.Children.Cast<UIElement>().Where(x => x is RadioButton).Select(x => x as RadioButton).ToList();
-                foreach (var rb in answerBtns)
-                    ti.pnAnswers.Children.Add(new RadioButton() { Content = rb.Content, Margin = new Thickness(5, 0, 0, 0) });
+
+                
+                
+                newQuestion.QuestionText = questText;
+                currentTest.Questions.Add(newQuestion);
+
+                var ti = new QuestionControl(newQuestion);
+                ti.tbTest.Text = newQuestion.QuestionText;
+
+                foreach (var ans in newQuestion.Answers)
+                    ti.pnAnswers.Children.Add(new RadioButton() 
+                    { 
+                        Content = ans.AnswerText, 
+                        Margin = new Thickness(5, 0, 0, 0), 
+                        Background =  ans.IsCorrect ? new SolidColorBrush(Colors.Green) : new SolidColorBrush(Colors.Red)
+                    });
 
                 if (itemChangeWin.imageInTextBox.Visibility == Visibility.Visible)
                 {
@@ -83,9 +117,48 @@ namespace AppAdmin
             btAddQuestion.Visibility = TestList.Items.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
             btdelTest.Visibility = TestList.Items.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
             bthangeNameTest.Visibility = TestList.Items.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
+
+
             for (var i = pnTestList.Children.Count - 1; i >= 0; i--)
-                if (pnTestList.Children[i] is TestItemControl ti)
+                if (pnTestList.Children[i] is QuestionControl ti)
                     pnTestList.Children.Remove(ti);
+
+            var currentTest = TestList.SelectedItem as Test;
+            if (currentTest !=null)
+            {
+                tbTime.Inlines.Clear();
+                tbTime.Inlines.Add(new Run("Время:") { FontWeight = FontWeights.Bold });
+                tbTime.Inlines.Add(" " + currentTest.TimeSec.ToString());
+
+
+                foreach (var q in currentTest.Questions)
+                {
+                    var ti = new QuestionControl(q);
+                    ti.tbTest.Text = q.QuestionText;
+                    foreach (var answ in q.Answers)
+                    {
+                        var radioButton = new RadioButton()
+                        {
+                            Content = answ.AnswerText,
+                            Margin = new Thickness(5, 0, 0, 0) 
+                        };
+
+                        if (answ.IsCorrect == true)
+                        {
+                            radioButton.Background = new SolidColorBrush(Colors.Green);  
+                        }
+                        else
+                        {
+                            radioButton.Background = new SolidColorBrush(Colors.Red); 
+                        }
+                          
+
+
+                        ti.pnAnswers.Children.Add(radioButton);
+                    }
+                    pnTestList.Children.Add(ti);
+                }
+            }
         }
 
         private void btnDelTest_Click(object sender, RoutedEventArgs e)
@@ -102,15 +175,21 @@ namespace AppAdmin
 
         private void btnChangeNameTest_Click(object sender, RoutedEventArgs e)
         {
-            var addWin = new AddWindow() { WindowStartupLocation = WindowStartupLocation.CenterScreen };
-            addWin.Title = "Изменить название теста";
+           
+           
             if (TestList.SelectedItem != null)
             {
                 var selectedTest = (Test)TestList.SelectedItem;
-                addWin.tbName.Text = selectedTest.Title;  
+                var addWin = new ChangeInfoTest( selectedTest) { WindowStartupLocation = WindowStartupLocation.CenterScreen };
+               
                 if (addWin.ShowDialog().Value)
                 {
-                    selectedTest.Title = addWin.tbName.Text;
+                    selectedTest.Title = addWin.tbChangeName.Text;
+                    tbTime.Inlines.Clear();
+                    tbTime.Inlines.Add(new Run("Время:") { FontWeight = FontWeights.Bold });
+                    tbTime.Inlines.Add(" " + addWin.tbTime.Text);
+
+                   
                     TestList.Items.Refresh();
                 }
             }

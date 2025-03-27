@@ -5,8 +5,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:local="clr-namespace:AppAdmin.Views"
              mc:Ignorable="d"
-             Title="Change" Height="250" Width="600" WindowStartupLocation="CenterOwner">
-
+             Title="Change" MinHeight="250" Width="600" WindowStartupLocation="CenterOwner"
+             SizeChanged="Window_SizeChanged">
     <Grid Margin="0,0,0,0">
         <Grid >
             <Grid.ColumnDefinitions>
@@ -19,7 +19,7 @@
             <Grid  Grid.Column="0" ShowGridLines="False" Margin="0,5,0,0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="2*"></RowDefinition>
-                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
                 </Grid.RowDefinitions>
 
                 <Grid Grid.Row="0">
@@ -27,24 +27,44 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <TextBox x:Name="tbTest"  HorizontalAlignment="Stretch" Margin="0,5,0,0" 
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                        <TextBox x:Name="tbTest"  HorizontalAlignment="Stretch" Margin="0,5,0,0" 
                          TextWrapping="Wrap" VerticalAlignment="Top" Width="450" Height="140" 
-                         IsEnabled="True" Grid.Column="0"/>
+                         IsEnabled="True" Grid.Column="0" AcceptsReturn="True"/>
+                    </ScrollViewer>
 
-                            
-                    <Image x:Name="imageInTextBox" Width="140" Height="140" 
-                       HorizontalAlignment="Right" VerticalAlignment="Bottom" 
-                       Margin="0,5,0,0" Visibility="Collapsed" Grid.Column="1"/>
+
+                    <Image x:Name="imageInTextBox"  Height="200" Stretch="Uniform"  MaxWidth="350"
+                       HorizontalAlignment="Right" VerticalAlignment="Top" 
+                       Margin="5,5,5,5" Visibility="Collapsed" Grid.Column="1"/>
                 </Grid>
-                <Grid  Grid.Row="1" ShowGridLines="False" Margin="15,0,0,0">
+                <Grid  Grid.Row="1" ShowGridLines="False" Margin="15,2,0,0">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="2*"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <TextBlock Text="Ответы:"></TextBlock>
-                    <StackPanel x:Name="pnAnswers" Margin="10,5,8,5" Orientation="Horizontal" Grid.Row="2">
+                    <Grid  Grid.Row="0" ShowGridLines="False" Margin="5,0,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <StackPanel Orientation="Horizontal" Grid.Row="0">
+                            <TextBlock Text="Вес вопроса:"></TextBlock>
+                            <TextBox x:Name="tbWeight" HorizontalAlignment="Left" Margin="30,0,0,0" PreviewTextInput="NumberValidationTextBox" 
+                                    TextWrapping="Wrap" VerticalAlignment="Top" Width="250" Grid.Column="1" Height="18"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0,2,0,0">
+                            <TextBlock Text="Мульти ответы:"></TextBlock>
+                            <CheckBox x:Name="tbIsMultiAnswers" IsChecked="False" Margin="15,2,0,0" Checked="tbIsMultiAnswers_Checked" Unchecked="tbIsMultiAnswers_Checked"/>
+                        </StackPanel>
+                        <TextBlock Text="Ответы:"  Grid.Row="2"></TextBlock>
+                    </Grid>
+                   
+                    <WrapPanel x:Name="pnAnswers" Margin="10,5,8,5" Orientation="Horizontal" Grid.Row="1">
 
-                    </StackPanel>
+                    </WrapPanel>
+                   
                 </Grid>
 
             </Grid>
@@ -56,14 +76,16 @@
                     <RowDefinition Height="*"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
                 </Grid.RowDefinitions>
                 <Button x:Name="saveBtn" Grid.Row="0" Content="Сохранить" HorizontalAlignment="Center" Margin="0,5,0,5" VerticalAlignment="Top" Width="110" Click="saveBtn_Click"/>
                 <Button x:Name="imgBtn" Grid.Row="1" Content="Добавить рисунок" HorizontalAlignment="Center" Margin="0,5,0,5" VerticalAlignment="Top" Width="110" Click="addImgBtn_Click" FontSize="12"/>
-                <Button x:Name="cancelTestBtn" Grid.Row="5" Content="Cancel" HorizontalAlignment="Center" Margin="0,5,0,5" VerticalAlignment="Top" Width="110" Click="cancelTestBtn_Click"/>
+                <Button x:Name="imgDelBtn" Grid.Row="2" Content="Удалить рисунок" HorizontalAlignment="Center" Margin="0,5,0,5" VerticalAlignment="Top" Width="110" Click="delImgBtn_Click" FontSize="12"/>
+                <Button x:Name="cancelTestBtn" Grid.Row="6" Content="Cancel" HorizontalAlignment="Center" Margin="0,5,0,5" VerticalAlignment="Top" Width="110" Click="cancelTestBtn_Click"/>
 
-                <Button x:Name="addAnswerBtn" Grid.Row="2" Content="Добавить ответ" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,5,0,5" Width="110" Click="addAnswerBtn_Click" FontSize="12"/>
-                <Button x:Name="delAnswerBtn" Grid.Row="3" Content="Удалить ответ" HorizontalAlignment="Center"  Margin="0,5,0,5" VerticalAlignment="Center" Width="110" Click="delAnswerBtn_Click" Visibility="Collapsed"  FontSize="12"/>
-                <Button x:Name="changeAnswerBtn" Grid.Row="4" Content="Изменить ответ" HorizontalAlignment="Center"  Margin="0,5,0,5" VerticalAlignment="Center" Width="110" Click="changeAnswerBtn_Click" Visibility="Collapsed" FontSize="12"/>
+                <Button x:Name="addAnswerBtn" Grid.Row="3" Content="Добавить ответ" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,5,0,5" Width="110" Click="addAnswerBtn_Click" FontSize="12"/>
+                <Button x:Name="delAnswerBtn" Grid.Row="4" Content="Удалить ответ" HorizontalAlignment="Center"  Margin="0,5,0,5" VerticalAlignment="Center" Width="110" Click="delAnswerBtn_Click"   FontSize="12"/>
+                <Button x:Name="changeAnswerBtn" Grid.Row="5" Content="Изменить ответ" HorizontalAlignment="Center"  Margin="0,5,0,5" VerticalAlignment="Center" Width="110" Click="changeAnswerBtn_Click" FontSize="12"/>
             </Grid>
         </Grid>
     </Grid>

@@ -6,10 +6,22 @@ using System.Threading.Tasks;
 
 namespace AppAdmin.Models
 {
-    internal class Category
+    public class Category
     {
+        public int Id { get; set; }
         public String Title { get; set; }
         public Boolean IsSelected { get; set; }
         public List<Test> Tests { get; set; } = new List<Test>();
+
+        public Category() { }
+        public Category(string title)
+        {
+            Title = title;
+        }
+        public Category(string title, bool select) 
+        {
+            Title = title;
+            IsSelected = select;
+        }
     }
 }

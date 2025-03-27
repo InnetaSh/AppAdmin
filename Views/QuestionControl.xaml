@@ -1,0 +1,62 @@
+﻿<UserControl x:Class="AppAdmin.QuestionControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AppAdmin"
+             mc:Ignorable="d" 
+             d:DesignHeight="120" d:DesignWidth="560"
+              SizeChanged="UserControl_SizeChanged">
+    <Border BorderBrush="#FFB0B0B0" BorderThickness="1" CornerRadius="2" Padding="0">
+        <Grid Margin="0,0,0,0"  x:Name="gridContent" GotFocus="GridContent_GotFocus" LostFocus="GridContent_LostFocus">
+            <Grid  MinHeight="120"  GotFocus="GridContent_GotFocus" LostFocus="GridContent_LostFocus" Margin="0,0,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.Background>
+                    <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
+                </Grid.Background>
+                <Grid  Grid.Column="0" ShowGridLines="False" Margin="0,5,0,5"  >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="2*"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                            <TextBox x:Name="tbTest" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                    Margin="0,5,0,0" TextWrapping="Wrap" IsEnabled="True" Grid.Column="0"/>
+                        </ScrollViewer>
+
+                        <Image x:Name="imageInTextBox" Height="200" Stretch="Uniform"  MaxWidth="350"
+                            HorizontalAlignment="Right" VerticalAlignment="Top" 
+                            Margin="0,5,0,0" Visibility="Collapsed" Grid.Column="1"/>
+                    </Grid>
+
+                    <WrapPanel x:Name="pnAnswers" Margin="10,5,8,5" Orientation="Horizontal" Grid.Row="1">
+
+                    </WrapPanel>
+
+
+                </Grid>
+                <Grid  Grid.Column="1" ShowGridLines="False" Margin="0,5,0,5" x:Name="btnColumn" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <TextBlock x:Name="tblWeight" Grid.Row="0" Margin="5,5,0,0">Вес: 1</TextBlock>
+                    <Button x:Name="changeTestBtn" Grid.Row="1" Content="Изменить" HorizontalAlignment="Center" Margin="5,5,5,5" VerticalAlignment="Top" Width="100" Click="ChangeTestBtn_Click" />
+                    <Button x:Name="delTestBtn" Grid.Row="2" Content="Удалить" HorizontalAlignment="Center" Margin="5,5,5,5" VerticalAlignment="Top" Width="100" Click="delTestBtn_Click" />
+                </Grid>
+            </Grid>
+        </Grid>
+    </Border>
+</UserControl>

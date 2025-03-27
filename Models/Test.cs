@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace AppAdmin.Models
 {
-    internal class Test
+    public class Test
     {
+        public int Id { get; set; }
         public String Title { get; set; }
         public List<Question> Questions { get; set; } = new List<Question>();
-
+        public int TimeSec { get; set; }
         public override string ToString() => Title;
     }
 }
