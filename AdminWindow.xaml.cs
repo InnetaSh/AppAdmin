@@ -23,11 +23,13 @@ namespace AppAdmin
     public partial class AdminWindow : Window
     {
         public App App => ((App)Application.Current);
-        public AdminWindow()
+        private Admin _admin;
+        public AdminWindow(Admin admin)
         {
             InitializeComponent();
-            var admin = new Models.Admin();
-            admin.Name= "admin";
+            _admin = admin;
+            //var admin = new Models.Admin();
+            //admin.Name= "admin";
 
             admin.Categories = AllCategories();
             App.Admins.Add(admin);
@@ -57,7 +59,7 @@ namespace AppAdmin
 
         //-----------------Server-----------------------------------------------
 
-        private List<Category> AllCategories()
+        public List<Category> AllCategories()
         {
             string url = "http://localhost:5228/api/Admin/allTests";
             try
@@ -106,24 +108,7 @@ namespace AppAdmin
                 using (HttpClient client = new HttpClient())
                 {
                     var admin = App.Admins[0];
-                    //var admin = new Admin
-                    //{
-                    //    Name = "авававав",
-                    //    Categories = new List<Category>
-                    //        {
-                    //            new Category("qqq", true)
-                    //            {
-                    //                Tests = new List<Test>
-                    //                {
-                    //                    new Test()
-                                        
-                                        
-                                        
-                    //                }
-                    //            }
-                    //        }
-                    //};
-
+                   
                     string json = JsonConvert.SerializeObject(admin, Formatting.Indented);
                     //MessageBox.Show(json);
 
@@ -293,7 +278,12 @@ namespace AppAdmin
             }
         }
 
-     
+        private void backToLogin_Click(object sender, RoutedEventArgs e)
+        {
+            var loginWindow = new LoginWindow();
+            loginWindow.Show();
+            this.Close();
+        }
     }
 
 }

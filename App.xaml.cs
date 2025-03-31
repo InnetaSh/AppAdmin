@@ -11,6 +11,7 @@ namespace AppAdmin
     public partial class App : Application
     {
         internal List<Admin> Admins = new List<Admin>();
+        internal List<User> Users = new List<User>();
     }
 
 }

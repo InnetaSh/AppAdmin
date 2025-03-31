@@ -9,6 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="img\back\back1.png" />
+    <None Remove="img\back\images.jfif" />
     <None Remove="img\icon_add.png" />
     <None Remove="img\icon_back.png" />
     <None Remove="img\icon_delete.png" />
@@ -16,10 +18,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="img\back\back1.png" />
     <Resource Include="img\icon_add.png" />
     <Resource Include="img\icon_back.png" />
     <Resource Include="img\icon_delete.png" />

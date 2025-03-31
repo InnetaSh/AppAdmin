@@ -15,10 +15,6 @@ VALUES
 ('Фильмы');
 
 
-
-ALTER TABLE Categories
-ADD TimeSec INT NOT NULL DEFAULT 300;
-
 SELECT * FROM Categories
 DROP TABLE Categories
 ---------------------------тесты:----------------------------------------
@@ -28,15 +24,16 @@ CREATE TABLE Tests
    CategoryId  INT NOT NULL, 
    FOREIGN KEY (CategoryId ) REFERENCES Categories(CategoryId) ON DELETE CASCADE,
    TestName   NVARCHAR(100) NOT NULL,
-   TestDescription    NVARCHAR(100) 
+   TimeSec INT NOT NULL DEFAULT 300
 )
 
 
-INSERT INTO Tests (CategoryId, TestName, TestDescription)
+INSERT INTO Tests (CategoryId, TestName)
 VALUES
 ((SELECT CategoryId FROM Categories WHERE CategoryName  = 'Фильмы' ),
-'Игра престолов',
-'Описание теста для игры "Игра престолов"');
+'Игра престолов');
+
+
 
 SELECT * FROM Tests
 DROP TABLE Tests
@@ -118,6 +115,18 @@ DROP TABLE Answers
 
 
 
+----------------------------------админ:----------------------------------
+CREATE TABLE Admins                 
+(
+   AdminId   INT IDENTITY(1,1) PRIMARY KEY,
+   AdminName  NVARCHAR(100) NOT NULL,
+   PasswordHash  NVARCHAR(100) NOT NULL, 
+   Email NVARCHAR(100)  UNIQUE NOT NULL
+)
+
+
+SELECT * FROM Admins
+DROP TABLE Admins
 
 ----------------------------------пользователи:----------------------------------
 CREATE TABLE Users                 
@@ -125,6 +134,7 @@ CREATE TABLE Users
    UserId   INT IDENTITY(1,1) PRIMARY KEY,
    Username  NVARCHAR(100) NOT NULL,
    PasswordHash  NVARCHAR(100) NOT NULL, 
+   Email NVARCHAR(100)  UNIQUE NOT NULL,
    MaxAttempts INT
 )
 

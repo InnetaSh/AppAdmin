@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AppAdmin"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" WindowStartupLocation="CenterScreen"
+        Title="AdminWindow" Height="450" Width="800" WindowStartupLocation="CenterScreen"
         Loaded="Window_Loaded"
         Closing="Window_Closing">
     <!--Closing="Window_Closing"-->
@@ -14,7 +14,7 @@
             <TabItem HorizontalAlignment="Left" Width="40" Height="40">
                 <TabItem.Template>
                     <ControlTemplate>
-                        <Button x:Name="addCategory" Click="addCategory_Click" Width="30" FontSize="16" FontWeight="Bold" Margin="5,5,5,5">
+                        <Button x:Name="addCategory" Click="backToLogin_Click" Width="30" FontSize="16" FontWeight="Bold" Margin="5,5,5,5">
                             <Image Source="img/icon_back.png" Stretch="Fill"/>
                         </Button>
                     </ControlTemplate>

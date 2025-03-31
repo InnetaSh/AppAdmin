@@ -8,9 +8,9 @@ using System.Windows.Threading;
 
 namespace AppAdmin.Models
 {
-    public class Admin
+    public class Admin : User
     {
-        public String Name { get; set; }
+     
         public List<Category> Categories { get; set; } = new List<Category>();
 
         public Admin() { }
