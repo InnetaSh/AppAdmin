@@ -24,7 +24,8 @@ namespace AppAdmin.Views
     {
         public App App => ((App)Application.Current);
         private User _user;
-      
+       
+
         public UserWindow(User user)
         {
             InitializeComponent();
@@ -94,16 +95,23 @@ namespace AppAdmin.Views
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Categories.Items.Clear();
+            // Categories.Items.Clear();
+            if (Categories.Items.Count > 1)
+            {
+                for (int i = Categories.Items.Count - 1; i > 0; i--)
+                {
+                    Categories.Items.RemoveAt(i);
+                }
+            }
 
-         if (App.Users != null && App.Users.Count > 0 && App.Users[0] != null)
+            if (App.Users != null && App.Users.Count > 0 && App.Users[0] != null)
             {
 
                 if (App.Users[0].Categories != null && App.Users[0].Categories.Count > 0)
                 {
                     foreach (var c in App.Users[0].Categories)
                     {
-                        CreateNewTab(c.Title, c);
+                        CreateNewTab(c.Title, c, App.Users[0]);
                     }
                 }
                 else
@@ -118,12 +126,12 @@ namespace AppAdmin.Views
         }
 
 
-        private void CreateNewTab(string text, Category category)
+        private void CreateNewTab(string text, Category category, User user)
         {
             var ti = new TabItem()
             {
                 Header = text,
-                Content = new TestsUsersControl(category),
+                Content = new TestsUsersControl(category,user),
             
                 //Tag = category
             };
@@ -147,6 +155,12 @@ namespace AppAdmin.Views
 
 
             Categories.Items.Add(ti);
+        }
+
+        private void Cabinet_Click(object sender, RoutedEventArgs e)
+        {
+            var newWindow = new UserCabinetWindow(_user) { WindowStartupLocation = WindowStartupLocation.CenterScreen };
+            newWindow.Show();
         }
     }
 }

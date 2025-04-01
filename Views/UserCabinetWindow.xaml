@@ -1,0 +1,32 @@
+﻿<Window x:Class="AppAdmin.Views.UserCabinetWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AppAdmin.Views"
+        mc:Ignorable="d"
+         Loaded="Window_Loaded"
+        Title="Cabinet" Height="450" Width="400">
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid.Background>
+            <ImageBrush x:Name="tbImgSrc" ImageSource="../img/back/back_default.png" 
+                 Stretch="Fill" 
+                 Viewport="0,0,1,1" 
+                 ViewportUnits="RelativeToBoundingBox" />
+        </Grid.Background>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock x:Name="tbLogin" Foreground="#FFC3C3C3" FontSize="14" VerticalAlignment="Center" Margin="20" Grid.Row="0"  TextWrapping="Wrap" >Login</TextBlock>
+        <ListBox x:Name="UserListBox"  Grid.Row="1" Margin="10">
+            <ListBox.Background>
+                <SolidColorBrush Color="#80FFFFFF"/>
+               
+            </ListBox.Background>
+        </ListBox>
+        <Button x:Name="btOk" Content="Cancel" HorizontalAlignment="Right"  VerticalAlignment="Center" Grid.Column="0"
+       Margin="10,10,20,20"   Width="100" Height="20" Grid.Row="2" Click="btnOk_Click"/>
+    </Grid>
+</Window>

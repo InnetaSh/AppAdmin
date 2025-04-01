@@ -23,11 +23,12 @@ namespace AppAdmin
     public partial class TestsUsersControl : UserControl
     {
         private Category _category;
-        public TestsUsersControl(Category category)
+        private User _user;
+        public TestsUsersControl(Category category, User user)
         {
             InitializeComponent();
             _category = category;
-           
+            _user = user;   
         }
 
 
@@ -49,7 +50,7 @@ namespace AppAdmin
             var currentTest = TestList.SelectedItem as Test;
             if (currentTest != null)
             {
-                var ti = new TestDescriptionControl(currentTest);
+                var ti = new TestDescriptionControl(currentTest,_user);
                   
                 pnTestList.Children.Add(ti);
                 

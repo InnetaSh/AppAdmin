@@ -18,11 +18,11 @@ namespace AppAdmin.Views
     /// <summary>
     /// Interaction logic for AddWindow.xaml
     /// </summary>
-    public partial class ChangeAnswer : Window
+    public partial class ChangeAnswerWindow : Window
     {
         Question _quest;
         private Answer _selectedAnswer;
-        public ChangeAnswer(Question quest, Answer selectedAnswer)
+        public ChangeAnswerWindow(Question quest, Answer selectedAnswer)
         {
             InitializeComponent();
 

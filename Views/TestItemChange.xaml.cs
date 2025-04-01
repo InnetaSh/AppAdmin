@@ -190,7 +190,7 @@ namespace AppAdmin
 
             Answer answer = selectedAnswer?.Tag as Answer;
 
-            var changeWin = new ChangeAnswer(_quest, answer) { WindowStartupLocation = WindowStartupLocation.CenterScreen };
+            var changeWin = new ChangeAnswerWindow(_quest, answer) { WindowStartupLocation = WindowStartupLocation.CenterScreen };
        
 
             if (changeWin.ShowDialog().Value)

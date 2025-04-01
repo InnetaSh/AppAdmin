@@ -8,17 +8,18 @@
              d:DesignHeight="450" d:DesignWidth="560">
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid.Background>
-            <ImageBrush ImageSource="pack://application:,,,/AppAdmin;component/img/back/back1.png" 
+            <ImageBrush x:Name="tbImgSrc" ImageSource="../img/back/back_default.png" 
                     Stretch="Fill" 
                     Viewport="0,0,1,1" 
                     ViewportUnits="RelativeToBoundingBox" />
         </Grid.Background>
         <Grid.RowDefinitions>
+            <RowDefinition Height="200"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <TextBlock Foreground="#FFC3C3C3" FontSize="14" VerticalAlignment="Bottom" Margin="20">Описание.....</TextBlock>
-        <Button x:Name="btAdd" Content="Start" HorizontalAlignment="Right"  VerticalAlignment="Center" Grid.Column="0"
-          Margin="10,10,20,20"   Width="100" Height="20" Grid.Row="1" Click="btnStart_Click"/>
+        <TextBlock x:Name="tbDescription" Foreground="#FFC3C3C3" FontSize="14" VerticalAlignment="Center" Margin="20" Grid.Row="1"  TextWrapping="Wrap" >Описание.....</TextBlock>
+        <Button x:Name="btStart" Content="Start" HorizontalAlignment="Right"  VerticalAlignment="Center" Grid.Column="0"
+          Margin="10,10,20,20"   Width="100" Height="20" Grid.Row="2" Click="btnStart_Click"/>
     </Grid>
 </UserControl>

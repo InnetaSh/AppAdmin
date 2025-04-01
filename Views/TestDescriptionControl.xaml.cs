@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,15 +24,29 @@ namespace AppAdmin.Views
     {
         private Test _test;
         private TestWindow _testWindow;
-        public TestDescriptionControl(Test test)
+        private User _user;
+        public TestDescriptionControl(Test test, User user)
         {
             InitializeComponent();
             _test = test;
+            _user = user;
+            tbDescription.Text = _test.Description;
+
+            string imagesPath = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "img");
+            string imgSrc = string.IsNullOrEmpty(_test.ImgSrc) ? System.IO.Path.Combine(imagesPath, "back\\back_default.png") 
+                : System.IO.Path.Combine(imagesPath, $"back\\{_test.ImgSrc}");
+            tbImgSrc.ImageSource = new BitmapImage(new Uri(imgSrc, UriKind.RelativeOrAbsolute));
         }
 
         private void btnStart_Click(object sender, RoutedEventArgs e)
         {
-             _testWindow = new TestWindow(_test);
+            _testWindow = new TestWindow(_test,_user);
+            var parentWindow = Window.GetWindow(this);
+            if (parentWindow != null)
+            {
+                _testWindow.Owner = parentWindow; 
+                _testWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            }
             var question = _test.Questions[0];
             if (!string.IsNullOrEmpty(question.QuestionText))
             {

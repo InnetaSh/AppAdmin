@@ -13,7 +13,21 @@ namespace AppAdmin.Models
         public string Password { get; set; }
         public string Email { get; set; }
 
+        public string Token { get; set; }
+
         public List<Category> Categories { get; set; } = new List<Category>();
+        public List<UserInfo> userInfos { get; set; } = new List<UserInfo>();
     }
 
+
+    public class UserInfo
+    {
+        public string Id { get; set; }
+        public string TestTitle { get; set; }
+        public int CorrectAnswerCount { get; set; }
+        public int Points { get; set; }
+        public int Time {  get; set; }
+        public string Token { get; set; }
+
+    }
 }

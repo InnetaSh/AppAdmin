@@ -9,10 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="img\back.png" />
     <None Remove="img\back\back1.png" />
+    <None Remove="img\back\back_default.png" />
     <None Remove="img\back\images.jfif" />
     <None Remove="img\icon_add.png" />
     <None Remove="img\icon_back.png" />
+    <None Remove="img\icon_cabinet.png" />
     <None Remove="img\icon_delete.png" />
     <None Remove="img\icon_save.png" />
   </ItemGroup>
@@ -23,9 +26,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="img\back\back1.png" />
+    <Resource Include="img\back.png" />
+    <Content Include="img\back\back1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\back\back_default.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Resource Include="img\icon_add.png" />
     <Resource Include="img\icon_back.png" />
+    <Resource Include="img\icon_cabinet.png" />
     <Resource Include="img\icon_delete.png" />
     <Resource Include="img\icon_save.png" />
   </ItemGroup>

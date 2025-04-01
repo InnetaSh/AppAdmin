@@ -118,7 +118,7 @@ namespace AppAdmin
 
                     if (response.IsSuccessStatusCode)
                     {
-                        string responseData = response.Content.ReadAsStringAsync().Result; // Получаем ответ синхронно
+                        string responseData = response.Content.ReadAsStringAsync().Result; 
                         MessageBox.Show("Данные успешно сохранены");
                     }
                     else

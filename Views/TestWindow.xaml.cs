@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,6 +15,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using AppAdmin.Models;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace AppAdmin.Views
 {
@@ -22,6 +26,7 @@ namespace AppAdmin.Views
     public partial class TestWindow : Window
     {
         private Test _test;
+        private User _user;
         private int i = 1;
         private int _isCorrectAnswer = 0;
         private int _points = 0;
@@ -29,10 +34,11 @@ namespace AppAdmin.Views
         private DispatcherTimer _timer; 
         private int _timeRemaining ;
 
-        public TestWindow(Test test)
+        public TestWindow(Test test,User user)
         {
             InitializeComponent();
             _test = test;
+            _user = user;
 
             _timer = new DispatcherTimer();
             _timer.Interval = TimeSpan.FromSeconds(1); 
@@ -40,6 +46,10 @@ namespace AppAdmin.Views
 
             _timeRemaining = _test.TimeSec;
 
+            string imagesPath = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "img");
+            string imgSrc = string.IsNullOrEmpty(_test.ImgSrc) ? System.IO.Path.Combine(imagesPath, "back\\back_default.png") 
+                : System.IO.Path.Combine(imagesPath, $"back\\{_test.ImgSrc}");
+            ImgSrc.ImageSource = new BitmapImage(new Uri(imgSrc, UriKind.Relative));
 
             Answer2.Visibility= Visibility.Collapsed;
             Answer1.Visibility = Visibility.Collapsed;
@@ -53,15 +63,13 @@ namespace AppAdmin.Views
             _timeRemaining--; 
 
            
-            TimerProgressBar.Value = 100 - (_timeRemaining * 100 / 60); 
-
+            TimerProgressBar.Value = 100 - (_timeRemaining * 100 / _test.TimeSec); 
             TimerText.Text = _timeRemaining.ToString("D2");
 
            
             if (_timeRemaining == 0)
             {
-                _timer.Stop(); 
-                //TimerText.Text = "Время вышло!"; 
+                _timer.Stop();  
                 TimerProgressBar.Visibility = Visibility.Collapsed;
 
                 AnswersPanel.Visibility = Visibility.Collapsed;
@@ -89,14 +97,41 @@ namespace AppAdmin.Views
         public void StartTest()
         {
             _timeRemaining = _test.TimeSec; 
-            TimerProgressBar.Value = 0; 
+            TimerProgressBar.Value = 40; 
             TimerProgressBar.Visibility = Visibility.Visible; 
             _timer.Start(); 
         }
 
         private void FinishTestButton_Click(object sender, RoutedEventArgs e)
         {
+            if (BackQuestionButton.Content != "В меню")
+            {
+                _timer.Stop();
+                
 
+                var userInfo = new UserInfo();
+                userInfo.CorrectAnswerCount = _isCorrectAnswer;
+                userInfo.Points = _points;
+                userInfo.TestTitle = _test.Title;
+                userInfo.Token = _user.Token;
+                userInfo.Time = _test.TimeSec - _timeRemaining;
+                _user.userInfos.Add(userInfo);
+                SaveUserToBaseTable(userInfo);
+
+                
+                var testWindow = new UserWindow(_user) { WindowStartupLocation = WindowStartupLocation.CenterScreen };
+
+                testWindow.Show();
+                this.Close();
+            }
+            else
+            {
+                _timer.Stop();
+                var testWindow = new UserWindow(_user) { WindowStartupLocation = WindowStartupLocation.CenterScreen };
+                // testWindow.Owner = this;
+                testWindow.Show();
+                this.Close();
+            }
         }
 
         private void NextQuestionButton_Click(object sender, RoutedEventArgs e)
@@ -108,8 +143,22 @@ namespace AppAdmin.Views
                 QuestionPanel.Visibility = Visibility.Collapsed;
                 QuestionText.Visibility = Visibility.Collapsed;
                 pnProgressBar.Visibility = Visibility.Collapsed;
-                pnBtn.Visibility = Visibility.Collapsed;
+                NextQuestionButton.Visibility = Visibility.Collapsed;
                 AnswersPanel.Children.Clear();
+
+                 var userInfo = new UserInfo();
+                userInfo.CorrectAnswerCount = _isCorrectAnswer;
+                userInfo.Points = _points;
+                userInfo.TestTitle = _test.Title;
+                userInfo.Token = _user.Token;
+                userInfo.Time = _test.TimeSec - _timeRemaining;
+                _user.userInfos.Add(userInfo);
+                SaveUserToBaseTable(userInfo);
+
+                BackQuestionButton.Content = "В меню";
+                
+
+
                 var congratulationText = "";
                 if (_isCorrectAnswer > 0)
                     congratulationText = "Поздравляем!!! Вы прошли тест";
@@ -158,24 +207,24 @@ namespace AppAdmin.Views
             {
                 var question = _test.Questions[i];
                 foreach (var child in AnswersPanel.Children)
-            {
-                if (child is Border border)
                 {
-                    if (border.Child is CheckBox checkBox)
+                    if (child is Border border)
                     {
-                        if (checkBox.IsChecked == true)
+                        if (border.Child is CheckBox checkBox)
                         {
-                            isAnswerSelected = true;
-
-                            var answer = (Answer)checkBox.Tag;
-                            if (answer.IsCorrect)
+                            if (checkBox.IsChecked == true)
                             {
-                                _isCorrectAnswer += 1;
-                                _points += question.Weight;
+                                isAnswerSelected = true;
+
+                                var answer = (Answer)checkBox.Tag;
+                                if (answer.IsCorrect)
+                                {
+                                    _isCorrectAnswer += 1;
+                                    _points += question.Weight;
+                                }
+                                break; 
                             }
-                            break; 
                         }
-                    }
                   
                     else if (border.Child is RadioButton radioButton)
                     {
@@ -308,6 +357,41 @@ namespace AppAdmin.Views
                 }
             }
         }
+
+        private void SaveUserToBaseTable(UserInfo userInfo)
+        {
+            string url = "http://localhost:5228/api/Admin/userInfo";
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+
+                    string json = JsonConvert.SerializeObject(userInfo, Formatting.Indented);
+                    //MessageBox.Show(json);
+
+                    var jsonContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+
+                    var response = client.PostAsync(url, jsonContent).Result;
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string responseData = response.Content.ReadAsStringAsync().Result;
+
+                        MessageBox.Show("Данные успешно сохранены");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Ошибка запроса: " + response.StatusCode, "Ошибка");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка при запросе: " + ex.Message, "Ошибка");
+            }
+        }
+
+
 
         private void Cb_Checked(object sender, RoutedEventArgs e)
         {

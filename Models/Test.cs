@@ -14,6 +14,8 @@ namespace AppAdmin.Models
         public int TimeSec { get; set; }
 
         public String Description { get; set; }
+
+        public String ImgSrc { get; set; }
         public override string ToString() => Title;
     }
 }

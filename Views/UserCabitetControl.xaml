@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="AppAdmin.Views.UserCabitetControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AppAdmin.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="40" d:DesignWidth="380">
+    <Border BorderBrush="Black" BorderThickness="2">
+    <Grid Background="#FF464646"  >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Border BorderBrush="#FF545454" BorderThickness="1" Grid.Row="0" Grid.Column="0">
+                <TextBlock Text="TestTitle" x:Name="tbTestTitle" HorizontalAlignment="Left" Margin="15,5,5,5" 
+                       VerticalAlignment="Top"  Foreground="#FFB5B0B0" TextWrapping="Wrap"/>
+            </Border>
+
+            <Border BorderBrush="#FF545454" BorderThickness="1" Grid.Row="0" Grid.Column="1">
+                    <TextBlock x:Name="tbCountAnswers" Text="Правильныx ответов:" HorizontalAlignment="Center" Margin="5" 
+                       VerticalAlignment="Top" FontSize="10" Foreground="#FFB5B0B0" TextWrapping="Wrap"/>
+            </Border>
+
+            <Border BorderBrush="#FF545454" BorderThickness="1" Grid.Row="0" Grid.Column="2">
+                <TextBlock x:Name="tbCountPoints" Text="Количество очков:" HorizontalAlignment="Center" Margin="5" 
+                       VerticalAlignment="Top" FontSize="10" Foreground="#FFB5B0B0" TextWrapping="Wrap"/>
+            </Border>
+
+            <Border BorderBrush="#FF545454" BorderThickness="1" Grid.Row="0" Grid.Column="3">
+                <TextBlock x:Name="tbCountTime" Text="Время(сек):" HorizontalAlignment="Center" Margin="5" 
+                       VerticalAlignment="Top" FontSize="10" Foreground="#FFB5B0B0" TextWrapping="Wrap"/>
+            </Border>
+        </Grid>
+       
+    </Grid>
+    </Border>
+</UserControl>

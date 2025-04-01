@@ -7,10 +7,21 @@
         mc:Ignorable="d"
         Loaded="Window_Loaded"
         Title="UserWindow" Height="600" Width="800">
-    <Grid>
-        <TabControl x:Name="Categories" SelectionChanged="Categories_SelectionChanged">
-            
+    <Grid Background="#FF3E3E3E">
+        <TabControl x:Name="Categories" SelectionChanged="Categories_SelectionChanged" >
+            <TabControl.Background>
+                <ImageBrush ImageSource="../img/back.png" />
+            </TabControl.Background>
+            <TabItem HorizontalAlignment="Left" Width="40" Height="40">
+                <TabItem.Template>
+                    <ControlTemplate>
+                        <Button x:Name="btnCabinet" Click="Cabinet_Click" Width="30" FontSize="16" FontWeight="Bold" Margin="5,5,5,5">
+                            <Image Source="../img/icon_cabinet.png" Stretch="Fill"/>
+                        </Button>
+                    </ControlTemplate>
+                </TabItem.Template>
+            </TabItem>
         </TabControl>
-
+        <Button Content="Вход" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10,0,10,0" />
     </Grid>
 </Window>

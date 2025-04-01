@@ -47,11 +47,15 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
-                <RowDefinition Height="Auto" />
+                <RowDefinition Height="40" />
             </Grid.RowDefinitions>
-            <TextBlock  x:Name="tbTime"  Margin="5,0,5,5" >Время:</TextBlock>
-            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                <StackPanel x:Name="pnTestList" Grid.Row="1"  Margin="5,20,5,5"/>
+            <StackPanel Grid.Row="0">
+                <TextBlock  x:Name="tbTime"  Margin="5,0,5,5" >Время:</TextBlock>
+                <TextBlock  x:Name="tbDescription"  Margin="5,0,5,5"   TextWrapping="Wrap">Описание:</TextBlock>
+            </StackPanel>
+
+            <ScrollViewer VerticalScrollBarVisibility="Visible"  HorizontalScrollBarVisibility="Disabled" Grid.Row="1"  Margin="5,5,5,5">
+                <StackPanel x:Name="pnTestList" />
             </ScrollViewer>
            
             <Button x:Name="btAddQuestion" 

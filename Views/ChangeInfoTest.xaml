@@ -5,43 +5,67 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AppAdmin.Views"
         mc:Ignorable="d"
-        Title="Change" Height="130" Width="360" WindowStartupLocation="CenterOwner">
+        Title="Change" Height="220" Width="450" WindowStartupLocation="CenterOwner">
     <Grid  >
 
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="2*"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2*"/>
-                <ColumnDefinition Width="7*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="4*"/>
             </Grid.ColumnDefinitions>
-            <TextBox x:Name="tbChangeName" HorizontalAlignment="Left" Margin="10,16,0,0" 
-                     TextWrapping="Wrap" VerticalAlignment="Top" Width="250" Grid.Column="1" Height="18"/>
-            <Label Content="Название" HorizontalAlignment="Left" Margin="10,12,0,0" 
-                   VerticalAlignment="Top" Height="26" Width="63"/>
+            <TextBox x:Name="tbChangeName" HorizontalAlignment="Left" Margin="15,5,0,5" 
+              TextWrapping="Wrap" VerticalAlignment="Center" Width="320" Grid.Column="1" Height="25"/>
+            <Label Content="Название" HorizontalAlignment="Left" Margin="15,0,0,0" 
+                   VerticalAlignment="Center" Height="25" Width="70" RenderTransformOrigin="0.5,0.078" Grid.Column="0"/>
         </Grid>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="4*"/>
             </Grid.ColumnDefinitions>
 
-            <Label Content="Время на тест(сек):" HorizontalAlignment="Center"
-                 VerticalAlignment="Top" Height="26" FontSize="10" Width="98"/>
-            <TextBox x:Name="tbTime" HorizontalAlignment="Left" Margin="10,0,0,0" PreviewTextInput="NumberValidationTextBox" 
-                TextWrapping="Wrap" VerticalAlignment="Top" Width="210" Grid.Column="1" Height="18"/>
+            <Label Content="Время (сек):" HorizontalAlignment="Left" Margin="15,0,0,0"
+                 VerticalAlignment="Center" Height="25" FontSize="10" Width="98"  Grid.Column="0"/>
+            <TextBox x:Name="tbTime" HorizontalAlignment="Left" Margin="15,5,0,5" PreviewTextInput="NumberValidationTextBox" 
+                TextWrapping="Wrap" VerticalAlignment="Top" Width="320" Height="20" Grid.Column="1"/>
         </Grid>
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="4*"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="Описание" HorizontalAlignment="Left" Margin="15,4,0,0" 
+                    VerticalAlignment="Top" Height="25" Width="70" Grid.Column="0"/>
+            <TextBox x:Name="tbChangeDescription" HorizontalAlignment="Left" Margin="15,0,0,0" 
+                    TextWrapping="Wrap" VerticalAlignment="Center" Width="320"  Height="50" Grid.Column="1"/>
+
+        </Grid>
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="4*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Content="Back-img:" HorizontalAlignment="Left" Margin="15,5,0,5"
+         VerticalAlignment="Center"  FontSize="10"  Grid.Column="0"/>
+            <TextBox x:Name="tbImgSrc" HorizontalAlignment="Left"   Margin="15,5,0,5"
+        TextWrapping="Wrap" VerticalAlignment="Center" Width="320" Height="20" Grid.Column="1"/>
+        </Grid>
+        <Grid Grid.Row="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="btAdd" Content="OK" HorizontalAlignment="Center"  VerticalAlignment="Center" Grid.Column="0"
-          Margin="10,0,0,0"  Click="btAdd_Click" Width="100" Height="20" Grid.Row="1"/>
+            <Button x:Name="btOk" Content="OK" HorizontalAlignment="Center"  VerticalAlignment="Center" Grid.Column="0"
+          Margin="10,0,0,0"  Click="btOk_Click" Width="100" Height="20" Grid.Row="1"/>
 
             <Button x:Name="btCancel" Content="Отменить" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1"
           Margin="10,0,0,0"  Click="btCancel_Click" Width="100" Height="20" Grid.Row="1"/>

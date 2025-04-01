@@ -80,7 +80,7 @@ namespace AppAdmin
                 newQuestion.QuestionText = questText;
                 currentTest.Questions.Add(newQuestion);
 
-                var ti = new QuestionControl(newQuestion);
+                var ti = new QuestionControl(newQuestion, currentTest);
                 ti.tbTest.Text = newQuestion.QuestionText;
 
                 foreach (var ans in newQuestion.Answers)
@@ -130,10 +130,14 @@ namespace AppAdmin
                 tbTime.Inlines.Add(new Run("Время:") { FontWeight = FontWeights.Bold });
                 tbTime.Inlines.Add(" " + currentTest.TimeSec.ToString());
 
+                tbDescription.Inlines.Clear();
+                tbDescription.Inlines.Add(new Run("Описание:") { FontWeight = FontWeights.Bold });
+                tbDescription.Inlines.Add(" " + currentTest.Description);
+
 
                 foreach (var q in currentTest.Questions)
                 {
-                    var ti = new QuestionControl(q);
+                    var ti = new QuestionControl(q, currentTest);
                     ti.tbTest.Text = q.QuestionText;
                     foreach (var answ in q.Answers)
                     {
@@ -189,7 +193,9 @@ namespace AppAdmin
                     tbTime.Inlines.Add(new Run("Время:") { FontWeight = FontWeights.Bold });
                     tbTime.Inlines.Add(" " + addWin.tbTime.Text);
 
-                   
+                    tbDescription.Inlines.Clear();
+                    tbDescription.Inlines.Add(new Run("Описание:") { FontWeight = FontWeights.Bold });
+                    tbDescription.Inlines.Add(" " + addWin.tbChangeDescription.Text);
                     TestList.Items.Refresh();
                 }
             }

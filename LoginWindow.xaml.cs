@@ -19,6 +19,7 @@ using System.Windows.Shapes;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using Newtonsoft.Json;
 using System.Net.Http;
+using System.Windows.Interop;
 
 namespace AppAdmin
 {
@@ -36,6 +37,7 @@ namespace AppAdmin
             ConfirmPassword.Visibility = Visibility.Collapsed;
             EmailLabel.Visibility = Visibility.Collapsed;
             Email.Visibility = Visibility.Collapsed;
+            IsAdmin.Visibility = Visibility.Collapsed;
         }
 
         private string HashPassword(string plainPassword)
@@ -60,7 +62,8 @@ namespace AppAdmin
 
                 if (currentText == "Register")
                 {
-
+                    UserName.Text = "";
+                    Password.Password = "";
                     hyperlink.Inlines.Clear();
                     hyperlink.Inlines.Add("Login");
 
@@ -69,13 +72,15 @@ namespace AppAdmin
 
                     EmailLabel.Visibility = Visibility.Visible;
                     Email.Visibility = Visibility.Visible;
+                    IsAdmin.Visibility = Visibility.Visible;
 
                     Header.Content = "Sing In";
                     btnLogin.Content = "SingIn";
                 }
                 else if (currentText == "Login")
                 {
-
+                    UserName.Text = "";
+                    Password.Password = "";
                     hyperlink.Inlines.Clear();
                     hyperlink.Inlines.Add("Register");
 
@@ -84,6 +89,7 @@ namespace AppAdmin
 
                     EmailLabel.Visibility = Visibility.Collapsed;
                     Email.Visibility = Visibility.Collapsed;
+                    IsAdmin.Visibility = Visibility.Collapsed;
 
                     Header.Content = "Log In";
                     btnLogin.Content = "LogIn";
@@ -128,10 +134,24 @@ namespace AppAdmin
 
                 if (IsAdmin.IsChecked == true)
                 {
-                    var fitAdmin = AddAdmin(user);
+                    var msg = CheckNameExist(UserName.Text);
+                    if (!string.IsNullOrEmpty(msg))
+                    {
+                        Error.Visibility = Visibility.Visible;
+                        Error.Text = msg;
+                        return;
+                    }
+                    msg = CheckEmailExist(Email.Text);
+                    if (!string.IsNullOrEmpty(msg))
+                    {
+                        Error.Visibility = Visibility.Visible;
+                        Error.Text = msg;
+                        return;
+                    }
+                    var fitAdmin = SingInAdmin(user);
                     if (fitAdmin == null)
                     {
-                        Error.Text = "Не удалось войти в систему";
+                        Error.Text = "Не удалось добавить нового пользователя";
                         Error.Visibility = Visibility.Visible;
                         return;
                     }
@@ -139,60 +159,79 @@ namespace AppAdmin
                     {
                         Hide();
                         var adminWindow = new AdminWindow(fitAdmin);
+
+                        adminWindow.Owner = this; 
+                        adminWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
                         adminWindow.Show();
                     }
                 }
                 else
                 {
-                    var fituser = AddUser(user);
+                    var msg = CheckNameExist(UserName.Text);
+                    if (!string.IsNullOrEmpty(msg))
+                    {
+                        Error.Visibility = Visibility.Visible;
+                        Error.Text = msg;
+                        return;
+                    }
+                    msg = CheckEmailExist(Email.Text);
+                    if (!string.IsNullOrEmpty(msg))
+                    {
+                        Error.Visibility = Visibility.Visible;
+                        Error.Text = msg;
+                        return;
+                    }
+                
+                     var fituser = SingInUser(user);
                     if (fituser == null)
                     {
-                        Error.Text = "Не удалось войти в систему";
+                        Error.Text = "Не удалось добавить нового пользователя";
                         Error.Visibility = Visibility.Visible;
                         return;
                     }
                     Hide();
-                    var userWindow = new UserWindow(user);
+                    var userWindow = new UserWindow(fituser);
+                    userWindow.Owner = this;
+                    userWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
                     userWindow.Show();
                 }
             }
             else if (btnLogin.Content.ToString() == "Login")
             {
-                if (IsAdmin.IsChecked ?? false)
-                {
                     var fitAdmin = FindAdminByName(user);
-                    MessageBox.Show(fitAdmin.Name);
                     if (fitAdmin == null)
                     {
-                        Error.Text = "Не удалось добавить нового пользователя";
-                        Error.Visibility = Visibility.Visible;
-                        return;
+
+                        var fituser = FindUserByName(user);
+                        if (fituser == null)
+                        {
+                            Error.Text = "Не удалось войти в систему";
+                            Error.Visibility = Visibility.Visible;
+                            return;
+                        }
+                        Hide();
+                        var userWindow = new UserWindow(fituser);
+                        userWindow.Owner = this;
+                        userWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                        userWindow.Show();
+
+
+                        
                     }
                     else
                     {
                         Hide();
                         var adminWindow = new AdminWindow(fitAdmin);
+                        adminWindow.Owner = this;
+                        adminWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
                         adminWindow.Show();
                     }
-                }
-                else
-                {
-                    var fituser = FindUserByName(user);
-                    if (fituser == null)
-                    {
-                        Error.Text = "Не удалось добавить нового пользователя";
-                        Error.Visibility = Visibility.Visible;
-                        return;
-                    }
-                    Hide();
-                    var userWindow = new UserWindow(user);
-                    userWindow.Show();  
-                }
+
             }
         }
 
 
-        private Admin AddAdmin(User user)
+        private Admin SingInAdmin(User user)
         {
             string url = "http://localhost:5228/api/Admin/singin/admin";
             try
@@ -230,7 +269,7 @@ namespace AppAdmin
             }
         }
 
-        private User AddUser(User user)
+        private User SingInUser(User user)
         {
             string url = "http://localhost:5228/api/Admin/singin/user";
             try
@@ -250,12 +289,12 @@ namespace AppAdmin
                         string responseData = response.Content.ReadAsStringAsync().Result;
                         
                         var fitUser = JsonConvert.DeserializeObject<User>(responseData);
-                        MessageBox.Show("Данные успешно сохранены");
+                        //MessageBox.Show("Данные успешно сохранены");
                         return fitUser;
                     }
                     else
                     {
-                        MessageBox.Show("Ошибка запроса: " + response.StatusCode, "Ошибка");
+                       // MessageBox.Show("Ошибка запроса: " + response.StatusCode, "Ошибка");
                         return null;
                     }
                 }
@@ -291,12 +330,12 @@ namespace AppAdmin
                        
                         var fitAdmin = JsonConvert.DeserializeObject<Admin>(responseData);
 
-                        MessageBox.Show("Данные успешно получены.");
+                       // MessageBox.Show("Данные успешно получены.");
                         return fitAdmin;  
                     }
                     else
                     {
-                        MessageBox.Show("Ошибка запроса: " + response.StatusCode, "Ошибка");
+                        //MessageBox.Show("Ошибка запроса: " + response.StatusCode, "Ошибка");
                         return null;
                     }
                 }
@@ -331,12 +370,12 @@ namespace AppAdmin
 
                         var fitUser = JsonConvert.DeserializeObject<User>(responseData);
 
-                        MessageBox.Show("Данные успешно получены.");
+                        //MessageBox.Show("Данные успешно получены.");
                         return fitUser;
                     }
                     else
                     {
-                        MessageBox.Show("Ошибка запроса: " + response.StatusCode, "Ошибка");
+                       // MessageBox.Show("Ошибка запроса: " + response.StatusCode, "Ошибка");
                         return null;
                     }
                 }
@@ -354,6 +393,118 @@ namespace AppAdmin
             return System.Text.RegularExpressions.Regex.IsMatch(email, EmailPattern);
         }
 
+        private async void UserName_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (btnLogin.Content.ToString() == "Login")
+            {
+                return;
+            }
+                var msg = CheckNameExist(UserName.Text);
+            if (!string.IsNullOrEmpty(msg))
+            {
+                Error.Visibility = Visibility.Visible;
+                Error.Text = msg;
+            }
+            else Error.Visibility = Visibility.Collapsed;
+        }
+
+        private  void EmailLabel_LostFocus(object sender, RoutedEventArgs e)
+        {
+            var msg =  CheckEmailExist(Email.Text);
+            if(!string.IsNullOrEmpty(msg))
+            {
+                Error.Visibility = Visibility.Visible;
+                Error.Text = msg;
+            }
+            else Error.Visibility = Visibility.Collapsed;
+        }
+
+        private string CheckNameExist(string name)
+        {
+            string url = "http://localhost:5228/api/Admin/checkUsernameExists";
+            //string name = UserName.Text;
+            var msg = "";
+
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+
+                    var response =  client.GetAsync($"{url}?name={name}").Result;
+
+                    if (response.IsSuccessStatusCode)
+                    {
+
+                        string responseContent =  response.Content.ReadAsStringAsync().Result;
+                        bool isUsernameTaken = bool.TryParse(responseContent, out bool result) && result;
+
+                        if (isUsernameTaken)
+                        {
+                            //Error.Visibility = Visibility.Visible;
+                            msg = "Это имя пользователя уже занято.";
+                        }
+                        //else
+                        //{
+                        //    Error.Visibility = Visibility.Collapsed;
+                        //}
+                    }
+                    else
+                    {
+                        //Error.Visibility = Visibility.Visible;
+                         msg = "Ошибка при проверке email пользователя.";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                //Error.Visibility = Visibility.Visible;
+                msg = "Ошибка при запросе: " + ex.Message;
+            }
+            return msg;
+        }
+
+        private string CheckEmailExist(string email)
+        {
+            var msg = "";
+            string url = "http://localhost:5228/api/Admin/checkEmailExists";
+
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    var response = client.GetAsync($"{url}?email={email}").Result;
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string responseContent = response.Content.ReadAsStringAsync().Result; 
+
+                        bool isUsernameTaken = bool.TryParse(responseContent, out bool result) && result;
+
+                        if (isUsernameTaken)
+                        {
+                            //Error.Visibility = Visibility.Visible;
+                            msg = "Этот email пользователя уже занят.";
+                        }
+                        //else
+                        //{
+                        //    Error.Visibility = Visibility.Collapsed;
+                        //}
+                    }
+                    else
+                    {
+                        //Error.Visibility = Visibility.Visible;
+                        msg = "Ошибка при проверке email пользователя.";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                //Error.Visibility = Visibility.Visible;
+                msg = "Ошибка при запросе: " + ex.Message;
+            }
+
+            return msg;
+        }
     }
     
 }

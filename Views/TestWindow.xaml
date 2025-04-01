@@ -4,7 +4,8 @@
         Title="Тестирование" Height="800" Width="800">
     <Grid>
         <Grid.Background>
-            <ImageBrush ImageSource="pack://application:,,,/AppAdmin;component/img/back/back1.png" 
+            <ImageBrush ImageSource="../img/back/back_default.png" 
+             x:Name="ImgSrc"   
              Stretch="Fill" 
              Viewport="0,0,1,1" 
              ViewportUnits="RelativeToBoundingBox" />
@@ -17,7 +18,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <StackPanel x:Name="QuestionPanel" VerticalAlignment="Center" Grid.Row="1">
-             <TextBlock x:Name="QuestionText" Text="Вопрос будет здесь" FontSize="16" Margin="50,7,50,10"  Foreground="#FFC3C3C3" Grid.Row="1" VerticalAlignment="Center"/>
+            <TextBlock x:Name="QuestionText" Text="Вопрос будет здесь" FontSize="16" Margin="50,7,50,10"  Foreground="#FFC3C3C3" Grid.Row="1" VerticalAlignment="Center"/>
         </StackPanel>
         <StackPanel x:Name="AnswersPanel" VerticalAlignment="Center" Grid.Row="2">
             <Border x:Name="brdAnswer1" BorderBrush="#FFB0B0B0" BorderThickness="1" CornerRadius="2" Padding="5" Margin="50,7,50,7">
@@ -32,35 +33,45 @@
                 </Border.Background>
                 <RadioButton x:Name="Answer2" Content="Ответ 2" />
             </Border>
-            </StackPanel>
-            <StackPanel x:Name="pnProgressBar" VerticalAlignment="Center" Grid.Row="3">
+        </StackPanel>
+        <StackPanel x:Name="pnProgressBar" VerticalAlignment="Center" Grid.Row="3">
             <TextBlock x:Name="Error" 
                   Margin="5,5,0,0" Height="30" 
                   Width="692"  
                  Foreground="Red" 
-                 Text=""/>   
+                 Text=""/>
             <Border BorderBrush="#FFB0B0B0" BorderThickness="1" CornerRadius="2" Padding="5" Margin="50,0,50,7" >
-                    <Border.Background>
-                        <SolidColorBrush Color="#80FFFFFF"/>
-                    </Border.Background>
-                    <Grid>
-                    <ProgressBar x:Name="TimerProgressBar" Height="20" Width="Auto" Value="50" Maximum="100" Foreground="#5c487c" VerticalAlignment="Center" />
-                        <TextBlock x:Name="TimerText" Text="01" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#FFC3C3C3" FontSize="16"/>
-                    </Grid>
-                </Border>
-           </StackPanel>
+                <Border.Background>
+                    <SolidColorBrush Color="#80FFFFFF"/>
+                </Border.Background>
+                <Grid HorizontalAlignment="Stretch">
+                    <ProgressBar x:Name="TimerProgressBar" Height="20" Value="0" Maximum="100" Width="700"
+             VerticalAlignment="Center" HorizontalAlignment="Stretch">
+                        <ProgressBar.Style>
+                            <Style TargetType="ProgressBar">
+                                <Setter Property="Foreground" Value="#446e9a"/>
+                                <Setter Property="Background" Value="#7fa9c6"/>
+                            </Style>
+                        </ProgressBar.Style>
+                    </ProgressBar>
+                    <TextBlock x:Name="TimerText" Text="01" VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                 Foreground="#044080" FontSize="16"  FontWeight="Bold"/>
+                </Grid>
+            </Border>
+        </StackPanel>
 
 
 
 
         <Grid x:Name="pnBtn" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Margin="10" Grid.Row="4">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="25*" />
+                <ColumnDefinition/>
+                <ColumnDefinition Width="26*" />
             </Grid.ColumnDefinitions>
 
-            <Button Content="Завершить" Click="FinishTestButton_Click" Margin="50,10,50,10" Grid.Column="0"/>
-            <Button x:Name ="NextQuestionButton" Content="Далее" Click="NextQuestionButton_Click" Margin="50,10,50,10" Grid.Column="1"/>
+            <Button Content="Завершить" x:Name ="BackQuestionButton" Click="FinishTestButton_Click" Margin="50,10,35,10" Grid.Column="0"/>
+            <Button x:Name ="NextQuestionButton" Content="Далее" Click="NextQuestionButton_Click" Margin="50,10,50,10" Grid.Column="2"/>
         </Grid>
 
 

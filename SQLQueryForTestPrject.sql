@@ -28,6 +28,11 @@ CREATE TABLE Tests
 )
 
 
+ALTER TABLE Tests
+ADD Description  NVARCHAR(500) NOT NULL DEFAULT '';
+ALTER TABLE Tests
+ADD ImgSrc  NVARCHAR(500) NOT NULL DEFAULT '';
+
 INSERT INTO Tests (CategoryId, TestName)
 VALUES
 ((SELECT CategoryId FROM Categories WHERE CategoryName  = 'Фильмы' ),
@@ -121,9 +126,9 @@ CREATE TABLE Admins
    AdminId   INT IDENTITY(1,1) PRIMARY KEY,
    AdminName  NVARCHAR(100) NOT NULL,
    PasswordHash  NVARCHAR(100) NOT NULL, 
-   Email NVARCHAR(100)  UNIQUE NOT NULL
+   Email NVARCHAR(100)  UNIQUE NOT NULL,
+   Token  NVARCHAR(500) NOT NULL DEFAULT ''
 )
-
 
 SELECT * FROM Admins
 DROP TABLE Admins
@@ -135,29 +140,29 @@ CREATE TABLE Users
    Username  NVARCHAR(100) NOT NULL,
    PasswordHash  NVARCHAR(100) NOT NULL, 
    Email NVARCHAR(100)  UNIQUE NOT NULL,
-   MaxAttempts INT
+   MaxAttempts INT,
+   Token  NVARCHAR(500) NOT NULL DEFAULT ''
 )
-
 
 SELECT * FROM Users
 DROP TABLE Users
 
--------------------------попытки прохождения тестов:-------------------------------------------
-CREATE TABLE TestAttempts                  
+------------------------- прохождения тестов:-------------------------------------------
+CREATE TABLE UserInfo                  
 (
-   AttemptId    INT IDENTITY(1,1) PRIMARY KEY,
+   UserInfoId    INT IDENTITY(1,1) PRIMARY KEY,
    UserId  INT NOT NULL, 
    FOREIGN KEY (UserId ) REFERENCES Users (UserId) ON DELETE CASCADE,
    TestId   INT NOT NULL, 
    FOREIGN KEY (TestId) REFERENCES Tests (TestId) ON DELETE CASCADE,
-   StartTime  DATETIME NOT NULL,
-   EndTime   DATETIME NOT NULL, 
-   Score  INT
+   CorrectAnswerCount INT,
+   Points  INT
 )
+ALTER TABLE UserInfo
+ADD Time  INT  DEFAULT 0;
 
-
-SELECT * FROM TestAttempts
-DROP TABLE TestAttempts
+SELECT * FROM UserInfo
+DROP TABLE UserInfo
 
 ------------------------------ответы пользователей:--------------------------------------
 CREATE TABLE UserAnswers                   

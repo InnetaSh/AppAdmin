@@ -23,6 +23,7 @@ namespace AppAdmin
     public partial class QuestionControl : UserControl
     {
         private Question _quest;
+        private Test _test;
         private Boolean _ForAdmin;
         public Boolean ForAdmin { get => _ForAdmin; set 
             {
@@ -32,13 +33,14 @@ namespace AppAdmin
                 changeTestBtn.Content = _ForAdmin ? "Изменить" : "Далее";
             }
         }
-        public QuestionControl(Question quest)
+        public QuestionControl(Question quest, Test test)
         {
             InitializeComponent();
             changeTestBtn.Visibility = Visibility.Collapsed;
             delTestBtn.Visibility = Visibility.Collapsed;
             btnColumn.Visibility = Visibility.Collapsed;
             _quest = quest;
+            _test = test;
         }
 
         private void ChangeTestBtn_Click(object sender, RoutedEventArgs e)
@@ -117,7 +119,8 @@ namespace AppAdmin
             var parentControl = this;  
 
             var parentPanel = (Panel)this.Parent;  
-            parentPanel.Children.Remove(parentControl);  
+            parentPanel.Children.Remove(parentControl);
+            _test.Questions.Remove(_quest);
         }
 
         private void GridContent_GotFocus(object sender, RoutedEventArgs e)

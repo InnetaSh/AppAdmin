@@ -29,14 +29,17 @@ namespace AppAdmin.Views
             _test = selectedTest;
             tbChangeName.Text = _test.Title;
             tbTime.Text = _test.TimeSec.ToString();
-
+            tbChangeDescription.Text = _test.Description;
+            tbImgSrc.Text = _test.ImgSrc;
         }
 
-        private void btAdd_Click(object sender, RoutedEventArgs e)
+        private void btOk_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = true;
             _test.Title = tbChangeName.Text;
             _test.TimeSec = int.TryParse(tbTime.Text, out var time) ? time : 0;
+            _test.Description = tbChangeDescription.Text;
+            _test.ImgSrc = tbImgSrc.Text;
             // _test.IsCorrect = trueRB.IsChecked ?? false;
 
             Close();
