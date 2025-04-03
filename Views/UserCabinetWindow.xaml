@@ -9,7 +9,7 @@
         Title="Cabinet" Height="450" Width="530">
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid.Background>
-            <ImageBrush x:Name="tbImgSrc" ImageSource="../img/backCabinet3.jpg" 
+            <ImageBrush x:Name="tbImgSrc" ImageSource="../img/backCabinet.jpg" 
                  Stretch="Fill" 
                  Viewport="0,0,1,1" 
                  ViewportUnits="RelativeToBoundingBox" />

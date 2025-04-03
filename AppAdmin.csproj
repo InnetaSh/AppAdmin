@@ -11,9 +11,7 @@
   <ItemGroup>
     <None Remove="img\back.png" />
     <None Remove="img\backCabinet.jpg" />
-    <None Remove="img\backCabinet3.jpg" />
     <None Remove="img\backListWindow.png" />
-    <None Remove="img\backLogin.jpg" />
     <None Remove="img\backLogin2.jpg" />
     <None Remove="img\back\back1.png" />
     <None Remove="img\back\back2.png" />
@@ -58,9 +56,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Resource Include="img\backCabinet.jpg" />
-    <Resource Include="img\backCabinet3.jpg" />
     <Resource Include="img\backListWindow.png" />
-    <Resource Include="img\backLogin.jpg" />
     <Resource Include="img\backLogin2.jpg" />
     <Resource Include="img\icon_add.png" />
     <Resource Include="img\icon_back.png" />
