@@ -30,7 +30,16 @@ namespace AppAdmin.Views
             tbChangeName.Text = _test.Title;
             tbTime.Text = _test.TimeSec.ToString();
             tbChangeDescription.Text = _test.Description;
-            tbImgSrc.Text = _test.ImgSrc;
+            if (!string.IsNullOrEmpty(_test.ImgSrc) && System.IO.File.Exists(_test.ImgSrc))
+            {
+                BitmapImage bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.UriSource = new Uri(_test.ImgSrc, UriKind.Absolute);
+                bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                bitmap.EndInit();
+
+                imageInTextBox.Source = bitmap;
+            }
         }
 
         private void btOk_Click(object sender, RoutedEventArgs e)
@@ -39,7 +48,7 @@ namespace AppAdmin.Views
             _test.Title = tbChangeName.Text;
             _test.TimeSec = int.TryParse(tbTime.Text, out var time) ? time : 0;
             _test.Description = tbChangeDescription.Text;
-            _test.ImgSrc = tbImgSrc.Text;
+            _test.ImgSrc = System.IO.Path.GetFileName((imageInTextBox.Source as BitmapImage)?.UriSource?.OriginalString);
             // _test.IsCorrect = trueRB.IsChecked ?? false;
 
             Close();
@@ -55,6 +64,27 @@ namespace AppAdmin.Views
         {
             Regex regex = new Regex("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);
+        }
+
+        private void addImgBtn_Click(object sender, RoutedEventArgs e)
+        {
+            var openFileDialog = new Microsoft.Win32.OpenFileDialog
+            {
+                Filter = "Image Files|*.jpg;*.png;*.bmp;*.gif"
+            };
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string filePath = openFileDialog.FileName;
+                _test.ImgSrc = System.IO.Path.GetFileName( filePath);
+                var image = new BitmapImage(new Uri(filePath));
+
+                imageInTextBox.Source = image;
+
+
+                imageInTextBox.Visibility = Visibility.Visible;
+                this.Height = 350;
+            }
         }
     }
 }

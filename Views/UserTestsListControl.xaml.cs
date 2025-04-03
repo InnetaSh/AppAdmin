@@ -20,41 +20,34 @@ namespace AppAdmin
     /// <summary>
     /// Interaction logic for TestsControl.xaml
     /// </summary>
-    public partial class TestsUsersControl : UserControl
+    public partial class UserTestsListControl : UserControl
     {
         private Category _category;
         private User _user;
-        public TestsUsersControl(Category category, User user)
+        public UserTestsListControl(Category category, User user)
         {
             InitializeComponent();
             _category = category;
-            _user = user;   
+            _user = user;
+           
         }
 
 
         private void TestsControl_Loaded(object sender, RoutedEventArgs e)
         {
-            TestList.Items.Clear();
-
+            pnTestList.Children.Clear();
+         
             if (_category != null && _category.Tests.Count > 0)
             {
                 foreach (var t in _category.Tests)
                 {
-                    TestList.Items.Add(t);
+                    var ti = new UserTestListItemControl(t, _user);
+
+                    pnTestList.Children.Add(ti);
                 }
             }
         }
 
-        private void TestList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var currentTest = TestList.SelectedItem as Test;
-            if (currentTest != null)
-            {
-                var ti = new TestDescriptionControl(currentTest,_user);
-                  
-                pnTestList.Children.Add(ti);
-                
-            }
-        }
+      
     }
 }

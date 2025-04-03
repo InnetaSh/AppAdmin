@@ -10,14 +10,25 @@
 
   <ItemGroup>
     <None Remove="img\back.png" />
+    <None Remove="img\backCabinet.jpg" />
+    <None Remove="img\backCabinet3.jpg" />
+    <None Remove="img\backListWindow.png" />
+    <None Remove="img\backLogin.jpg" />
+    <None Remove="img\backLogin2.jpg" />
     <None Remove="img\back\back1.png" />
+    <None Remove="img\back\back2.png" />
     <None Remove="img\back\back_default.png" />
+    <None Remove="img\back\back_default_small.png" />
     <None Remove="img\back\images.jfif" />
+    <None Remove="img\back\q1.jpg" />
     <None Remove="img\icon_add.png" />
     <None Remove="img\icon_back.png" />
     <None Remove="img\icon_cabinet.png" />
     <None Remove="img\icon_delete.png" />
+    <None Remove="img\icon_heart.png" />
+    <None Remove="img\icon_heart2.png" />
     <None Remove="img\icon_save.png" />
+    <None Remove="img\icon_start.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -30,14 +41,31 @@
     <Content Include="img\back\back1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="img\back\back2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="img\back\back_default.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="img\back\back_default_small.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\back\q1.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="img\backCabinet.jpg" />
+    <Resource Include="img\backCabinet3.jpg" />
+    <Resource Include="img\backListWindow.png" />
+    <Resource Include="img\backLogin.jpg" />
+    <Resource Include="img\backLogin2.jpg" />
     <Resource Include="img\icon_add.png" />
     <Resource Include="img\icon_back.png" />
     <Resource Include="img\icon_cabinet.png" />
     <Resource Include="img\icon_delete.png" />
+    <Resource Include="img\icon_heart.png" />
+    <Resource Include="img\icon_heart2.png" />
     <Resource Include="img\icon_save.png" />
+    <Resource Include="img\icon_start.png" />
   </ItemGroup>
 
 </Project>

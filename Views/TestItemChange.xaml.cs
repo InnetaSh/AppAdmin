@@ -39,7 +39,9 @@ namespace AppAdmin
             {
                 try
                 {
-                    imageInTextBox.Source = new BitmapImage(new Uri(_quest.ImagePath));
+                    string imagesPath = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "img\\back");
+                    string imgSrc = System.IO.Path.Combine(imagesPath, $"{_quest.ImagePath}");
+                    imageInTextBox.Source = new BitmapImage(new Uri(imgSrc));
                     imageInTextBox.Visibility = Visibility.Visible;
                 }
                 catch (UriFormatException ex)
@@ -189,7 +191,14 @@ namespace AppAdmin
                                 (x is CheckBox cb && (cb.IsChecked ?? false))) as FrameworkElement;
 
             Answer answer = selectedAnswer?.Tag as Answer;
-
+            if (answer == null && selectedAnswer != null)
+            {
+                answer = new Answer
+                {
+                    AnswerText = selectedAnswer is ContentControl contentControl ? contentControl.Content.ToString() : "",
+                    IsCorrect = (selectedAnswer as Control)?.Background != new SolidColorBrush(Color.FromRgb(255, 0, 0))
+                };
+            }
             var changeWin = new ChangeAnswerWindow(_quest, answer) { WindowStartupLocation = WindowStartupLocation.CenterScreen };
        
 
@@ -239,8 +248,8 @@ namespace AppAdmin
 
             if (openFileDialog.ShowDialog() == true)
             {
-                string filePath = openFileDialog.FileName;
-                _quest.ImagePath = filePath;
+                string filePath =  openFileDialog.FileName;
+                _quest.ImagePath = System.IO.Path.GetFileName(filePath);
                 var image = new BitmapImage(new Uri(filePath));
 
                 imageInTextBox.Source = image;

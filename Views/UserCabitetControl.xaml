@@ -5,18 +5,18 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:AppAdmin.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="40" d:DesignWidth="380">
+             d:DesignHeight="40" d:DesignWidth="500">
     <Border BorderBrush="Black" BorderThickness="2">
-    <Grid Background="#FF464646"  >
+        <Grid Background="#70464646">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="240"/>
+                <ColumnDefinition Width="70"/>
+                <ColumnDefinition Width="70"/>
+                <ColumnDefinition Width="70"/>
             </Grid.ColumnDefinitions>
             <Border BorderBrush="#FF545454" BorderThickness="1" Grid.Row="0" Grid.Column="0">
                 <TextBlock Text="TestTitle" x:Name="tbTestTitle" HorizontalAlignment="Left" Margin="15,5,5,5" 

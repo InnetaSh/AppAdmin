@@ -20,54 +20,59 @@ namespace AppAdmin.Views
     /// <summary>
     /// Interaction logic for TestDescriptionControl.xaml
     /// </summary>
-    public partial class TestDescriptionControl : UserControl
+    public partial class UserTestListItemControl : UserControl
     {
         private Test _test;
-        private TestWindow _testWindow;
+        private UserQuestionWindow _userQuestionWindow;
         private User _user;
-        public TestDescriptionControl(Test test, User user)
+        public UserTestListItemControl(Test test, User user)
         {
             InitializeComponent();
             _test = test;
             _user = user;
             tbDescription.Text = _test.Description;
 
-            string imagesPath = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "img");
-            string imgSrc = string.IsNullOrEmpty(_test.ImgSrc) ? System.IO.Path.Combine(imagesPath, "back\\back_default.png") 
+            string imagesPath = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "img\\");
+            string imgSrc = string.IsNullOrEmpty(_test.ImgSrc) ? System.IO.Path.Combine(imagesPath, "back\\back_default_small.png")
                 : System.IO.Path.Combine(imagesPath, $"back\\{_test.ImgSrc}");
-            tbImgSrc.ImageSource = new BitmapImage(new Uri(imgSrc, UriKind.RelativeOrAbsolute));
+
+            if (System.IO.File.Exists(imgSrc))
+                tbImgSrc.Source = new BitmapImage(new Uri(imgSrc, UriKind.RelativeOrAbsolute));
         }
 
         private void btnStart_Click(object sender, RoutedEventArgs e)
         {
-            _testWindow = new TestWindow(_test,_user);
+           
+            _userQuestionWindow = new UserQuestionWindow(_test,_user);
             var parentWindow = Window.GetWindow(this);
             if (parentWindow != null)
             {
-                _testWindow.Owner = parentWindow; 
-                _testWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                _userQuestionWindow.Owner = parentWindow; 
+                _userQuestionWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             }
             var question = _test.Questions[0];
             if (!string.IsNullOrEmpty(question.QuestionText))
             {
-                _testWindow.QuestionText.Text = question.QuestionText;
+                _userQuestionWindow.QuestionText.Text = question.QuestionText;
             }
             else
             {
-                _testWindow.QuestionText.Text = "Вопрос отсутствует";
+                _userQuestionWindow.QuestionText.Text = "Вопрос отсутствует";
             }
             if (!string.IsNullOrEmpty(question.ImagePath))
             {
+                string imagesPath = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, $"img\\back\\{question.ImagePath}");
                 var image = new Image()
                 {
-                    Source = new BitmapImage(new Uri(question.ImagePath, UriKind.RelativeOrAbsolute)),
-                    Width = 200, 
-                    Height = 150, 
+
+                    Source = new BitmapImage(new Uri(imagesPath, UriKind.RelativeOrAbsolute)),
+                    Width = 300, 
+                    Height =250, 
                     Margin = new Thickness(10) 
                 };
 
                
-                _testWindow.QuestionPanel.Children.Add(image);
+                _userQuestionWindow.QuestionPanel.Children.Add(image);
             }
 
 
@@ -113,7 +118,7 @@ namespace AppAdmin.Views
                     }
 
 
-                    _testWindow.AnswersPanel.Children.Add(border);
+                    _userQuestionWindow.AnswersPanel.Children.Add(border);
                 }
             }
             else
@@ -136,17 +141,17 @@ namespace AppAdmin.Views
                 };
 
                 border.Child = textBlock;
-                _testWindow.AnswersPanel.Children.Add(border);
+                _userQuestionWindow.AnswersPanel.Children.Add(border);
             }
 
-            _testWindow.StartTest();
-            _testWindow.Show();
-            this.Visibility = Visibility.Collapsed;
+            _userQuestionWindow.StartTest();
+            _userQuestionWindow.ShowDialog();
+            //this.Visibility = Visibility.Collapsed;
         }
 
         private void Cb_Checked(object sender, RoutedEventArgs e)
         {
-            _testWindow.NextQuestionButton.IsEnabled = true;
+            _userQuestionWindow.NextQuestionButton.IsEnabled = true;
         }
     }
 }

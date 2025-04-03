@@ -38,18 +38,24 @@ namespace AppAdmin.Views
 
             var cabinetControlTitle = new UserCabitetControl(_user);
 
-            cabinetControlTitle.tbTestTitle.Text = "TestTitle";
-            cabinetControlTitle.tbCountAnswers.Text = "CorrectAnswerCount";
-            cabinetControlTitle.tbCountPoints.Text = "Points";
-            cabinetControlTitle.tbCountTime.Text = "Time";
+            cabinetControlTitle.tbTestTitle.Text = "Название теста";
+            cabinetControlTitle.tbCountAnswers.Text = "Правильныx ответов";
+            cabinetControlTitle.tbCountPoints.Text = "Количество очков";
+            cabinetControlTitle.tbCountTime.Text = "Время(сек)";
             UserListBox.Items.Add(cabinetControlTitle);
 
-            foreach ( var ui in _user.userInfos)
+            foreach ( var ui in _user.UserInfos)
             {
                 var cabinetControl = new UserCabitetControl(_user);
+                var totalTestCount = _user.Categories
+                                    .Where(c => c.Tests != null)
+                                    .SelectMany(c => c.Tests)
+                                    .Where(t => t.Title == ui.TestTitle)
+                                    .SelectMany(t => t.Questions)
+                                    .Count();
 
-                cabinetControl.tbTestTitle.Text = ui.TestTitle; 
-                cabinetControl.tbCountAnswers.Text = ui.CorrectAnswerCount.ToString();
+                cabinetControl.tbTestTitle.Text = ui.TestTitle;
+                cabinetControl.tbCountAnswers.Text = $"{ui.CorrectAnswerCount} из {totalTestCount}";
                 cabinetControl.tbCountPoints.Text = ui.Points.ToString(); 
                 cabinetControl.tbCountTime.Text = ui.Time.ToString(); 
                 UserListBox.Items.Add(cabinetControl);

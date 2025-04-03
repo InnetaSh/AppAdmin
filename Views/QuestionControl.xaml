@@ -52,7 +52,7 @@
                         <RowDefinition Height="*"></RowDefinition>
                         <RowDefinition Height="*"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <TextBlock x:Name="tblWeight" Grid.Row="0" Margin="5,5,0,0">Вес: 1</TextBlock>
+                    <TextBlock x:Name="tblWeight" Grid.Row="0" Margin="5,5,0,0">Вес: </TextBlock>
                     <Button x:Name="changeTestBtn" Grid.Row="1" Content="Изменить" HorizontalAlignment="Center" Margin="5,5,5,5" VerticalAlignment="Top" Width="100" Click="ChangeTestBtn_Click" />
                     <Button x:Name="delTestBtn" Grid.Row="2" Content="Удалить" HorizontalAlignment="Center" Margin="5,5,5,5" VerticalAlignment="Top" Width="100" Click="delTestBtn_Click" />
                 </Grid>

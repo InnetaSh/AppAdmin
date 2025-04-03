@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AppAdmin.Views"
         mc:Ignorable="d"
-        Title="Change" Height="220" Width="450" WindowStartupLocation="CenterOwner">
+        Title="Change" Height="300" Width="450" WindowStartupLocation="CenterOwner">
     <Grid  >
 
         <Grid.RowDefinitions>
@@ -49,14 +49,16 @@
         </Grid>
         <Grid Grid.Row="3">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="16*"/>
+                <ColumnDefinition Width="29*"/>
             </Grid.ColumnDefinitions>
 
-            <Label Content="Back-img:" HorizontalAlignment="Left" Margin="15,5,0,5"
-         VerticalAlignment="Center"  FontSize="10"  Grid.Column="0"/>
-            <TextBox x:Name="tbImgSrc" HorizontalAlignment="Left"   Margin="15,5,0,5"
-        TextWrapping="Wrap" VerticalAlignment="Center" Width="320" Height="20" Grid.Column="1"/>
+            <!--<Label Content="Back-img:" HorizontalAlignment="Left" Margin="15,5,0,5"
+         VerticalAlignment="Center"  FontSize="10"  Grid.Column="0"/>-->
+            <Button x:Name="imgBtn" Content="Добавить рисунок" HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" Click="addImgBtn_Click" FontSize="12" Height="20"/>
+            <Image x:Name="imageInTextBox"  Height="70" Stretch="Uniform"  MaxWidth="10"
+                HorizontalAlignment="Right" VerticalAlignment="Top" 
+                Margin="5,5,25,5"   Grid.Column="1"/>       
         </Grid>
         <Grid Grid.Row="4">
             <Grid.ColumnDefinitions>
@@ -65,10 +67,10 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Button x:Name="btOk" Content="OK" HorizontalAlignment="Center"  VerticalAlignment="Center" Grid.Column="0"
-          Margin="10,0,0,0"  Click="btOk_Click" Width="100" Height="20" Grid.Row="1"/>
+          Margin="10,0,0,0"  Click="btOk_Click" Width="120" Height="20" Grid.Row="1"/>
 
             <Button x:Name="btCancel" Content="Отменить" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1"
-          Margin="10,0,0,0"  Click="btCancel_Click" Width="100" Height="20" Grid.Row="1"/>
+          Margin="10,0,0,0"  Click="btCancel_Click" Width="120" Height="20" Grid.Row="1"/>
         </Grid>
 
     </Grid>

@@ -5,12 +5,49 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AppAdmin"
         mc:Ignorable="d"
-               Title="Login" Height="600" Width="800" WindowStartupLocation="CenterScreen">
-    <Grid Background="#FF322D6F">
+        Title="Login" Height="600" Width="800" WindowStartupLocation="CenterScreen">
 
+    <Window.Resources>
+        <Style TargetType="TextBox">
+            <Setter Property="BorderBrush" Value="Gray"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Style.Triggers>
+                <Trigger Property="IsFocused" Value="True">
+                    <Setter Property="BorderBrush" Value="#D3D415"/>
+                    <Setter Property="BorderThickness" Value="2"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="BorderBrush" Value="#D3D415"/>
+                    <Setter Property="BorderThickness" Value="3"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="PasswordBox">
+            <Setter Property="BorderBrush" Value="Gray"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Style.Triggers>
+                <Trigger Property="IsFocused" Value="True">
+                    <Setter Property="BorderBrush" Value="#D3D415"/>
+                    <Setter Property="BorderThickness" Value="2"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="BorderBrush" Value="#D3D415"/>
+                    <Setter Property="BorderThickness" Value="3"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    <Grid >
+        <Grid.Background>
+            <ImageBrush x:Name="tbImgSrc" ImageSource="./img/backLogin2.jpg" 
+            Stretch="Fill" 
+            Viewport="0,0,1,1" 
+            ViewportUnits="RelativeToBoundingBox" />
+        </Grid.Background>
         <Border BorderBrush="#FFEAEAEA" BorderThickness="3,3,3,3"   VerticalAlignment="Center" HorizontalAlignment="Center" Width="370" CornerRadius="10,10,10,10">
 
-            <StackPanel Background="#FF322D6F">
+            <StackPanel Background="#80182b3f" >
 
                 <Label  x:Name="Header" Content="Sing Up" Width="300" FontSize="38" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="#FFD3D415" BorderThickness="0,15,0,0"/>
 
@@ -54,7 +91,7 @@
                     <Button x:Name="btnLogin" Margin="5,25,10,25" Height="40" Width="150" Content="Login" Foreground="White" FontSize="22" VerticalAlignment="Center" HorizontalAlignment="Center" Click="LoginBtn_Click">
                         <Button.Template>
                             <ControlTemplate TargetType="Button">
-                                <Border Background="{TemplateBinding Background}" BorderBrush="#FF3D4DA5" BorderThickness="1" CornerRadius="15">
+                                <Border Background="{TemplateBinding Background}" BorderBrush="#FF3D4DA5" BorderThickness="1" CornerRadius="5">
                                     <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
                             </ControlTemplate>
@@ -62,16 +99,27 @@
 
                         <Button.Background>
                             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                <GradientStop Color="#FF5064D2"/>
-                                <GradientStop Color="#FF1B1B4C" Offset="1"/>
+                                <GradientStop Color="#FF4a89cc"/>
+                                <GradientStop Color="#FF182b3f" Offset="1"/>
                             </LinearGradientBrush>
                         </Button.Background>
                     </Button>
 
-                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" Foreground="White" Width="150" TextAlignment="Right">
-                        <Hyperlink NavigateUri="#" RequestNavigate="Hyperlink_RequestNavigate_Register">
-                            Register
-                        </Hyperlink>
+                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" Width="150" TextAlignment="Right">
+                    <Hyperlink NavigateUri="#" RequestNavigate="Hyperlink_RequestNavigate_Register">
+                        <Hyperlink.Style>
+                            <Style TargetType="Hyperlink">
+                               
+                                <Setter Property="Foreground" Value="#4a89cc"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Foreground" Value="White"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Hyperlink.Style>
+                        Register
+                    </Hyperlink>
                     </TextBlock>
                 </StackPanel>
                 <TextBlock x:Name="Error" 

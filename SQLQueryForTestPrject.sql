@@ -50,19 +50,21 @@ CREATE TABLE Questions
    FOREIGN KEY (TestId ) REFERENCES Tests(TestId) ON DELETE CASCADE,
    QuestionText  NVARCHAR(255) NOT NULL,
    Weight  INT NOT NULL,
-   ImagePath NVARCHAR(255) 
+   ImagePath NVARCHAR(255),
+   IsMultiAnswers BIT NOT NULL DEFAULT 0
 )
 
-INSERT INTO Questions (TestId, QuestionText, Weight)
-VALUES
- ((SELECT TestId FROM Tests WHERE CategoryId = (SELECT CategoryId FROM Categories WHERE CategoryName = 'Фильмы')),
+INSERT INTO Questions (TestId, QuestionText, Weight, ImagePath, IsMultiAnswers)
+VALUES (
+    (SELECT TestId FROM Tests WHERE CategoryId = 
+        (SELECT CategoryId FROM Categories WHERE CategoryName = 'Фильмы')
+    ),
     'Хаос – это ______. - Петир Бейлиш',
-    20
+    20,
+    '', 
+    0
 );
-
-ALTER TABLE Questions
-ADD IsMultiAnswers BIT NOT NULL DEFAULT 0; 
-
+DELETE FROM Questions WHERE QuestionId = 26;
 
 SELECT * FROM Questions
 DROP TABLE Questions
@@ -160,6 +162,9 @@ CREATE TABLE UserInfo
 )
 ALTER TABLE UserInfo
 ADD Time  INT  DEFAULT 0;
+
+ALTER TABLE UserInfo
+ADD Token   NVARCHAR(500) NOT NULL DEFAULT '';
 
 SELECT * FROM UserInfo
 DROP TABLE UserInfo

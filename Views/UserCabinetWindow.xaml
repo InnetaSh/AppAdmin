@@ -6,27 +6,35 @@
         xmlns:local="clr-namespace:AppAdmin.Views"
         mc:Ignorable="d"
          Loaded="Window_Loaded"
-        Title="Cabinet" Height="450" Width="400">
+        Title="Cabinet" Height="450" Width="530">
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid.Background>
-            <ImageBrush x:Name="tbImgSrc" ImageSource="../img/back/back_default.png" 
+            <ImageBrush x:Name="tbImgSrc" ImageSource="../img/backCabinet3.jpg" 
                  Stretch="Fill" 
                  Viewport="0,0,1,1" 
                  ViewportUnits="RelativeToBoundingBox" />
         </Grid.Background>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="150"/>
+            <RowDefinition Height="1*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <TextBlock x:Name="tbLogin" Foreground="#FFC3C3C3" FontSize="14" VerticalAlignment="Center" Margin="20" Grid.Row="0"  TextWrapping="Wrap" >Login</TextBlock>
-        <ListBox x:Name="UserListBox"  Grid.Row="1" Margin="10">
+        <Grid  Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock x:Name="tbLogin" Foreground="#FFC3C3C3" FontSize="24" VerticalAlignment="Center"  HorizontalAlignment="Left"  Margin="40,0,0,0"   TextWrapping="Wrap"  Grid.Column="0" FontWeight="Bold" Width="110" Height="50">Login</TextBlock>
+
+        </Grid>
+
+        <ListBox x:Name="UserListBox"  Margin="10,10,10,0" Height="230" VerticalAlignment="Top" Grid.Row="1">
             <ListBox.Background>
-                <SolidColorBrush Color="#80FFFFFF"/>
-               
+                <SolidColorBrush Color="#50FFFFFF"/>
+
             </ListBox.Background>
         </ListBox>
-        <Button x:Name="btOk" Content="Cancel" HorizontalAlignment="Right"  VerticalAlignment="Center" Grid.Column="0"
-       Margin="10,10,20,20"   Width="100" Height="20" Grid.Row="2" Click="btnOk_Click"/>
+        <Button x:Name="btOk" Content="Cancel" HorizontalAlignment="Right"  VerticalAlignment="Top"
+       Margin="5,5,50,10"   Width="100" Height="20" Grid.Row="2" Click="btnOk_Click" Grid.RowSpan="2"/>
     </Grid>
 </Window>

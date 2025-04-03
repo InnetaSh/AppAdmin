@@ -41,6 +41,7 @@ namespace AppAdmin
             btnColumn.Visibility = Visibility.Collapsed;
             _quest = quest;
             _test = test;
+            tblWeight.Text = "Вес: " + _quest.Weight.ToString(); 
         }
 
         private void ChangeTestBtn_Click(object sender, RoutedEventArgs e)
@@ -92,7 +93,10 @@ namespace AppAdmin
             {
                 try
                 {
-                    imageInTextBox.Source = new BitmapImage(new Uri(_quest.ImagePath));
+                    string imagesPath = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "img\\back");
+                    string imgSrc = System.IO.Path.Combine(imagesPath, $"{_quest.ImagePath}");
+
+                    imageInTextBox.Source = new BitmapImage(new Uri(imgSrc));
                     imageInTextBox.Visibility = Visibility.Visible;
                
                     this.Height = 300;
@@ -107,9 +111,6 @@ namespace AppAdmin
                 imageInTextBox.Visibility = Visibility.Collapsed;
                 this.Height = 200;
             }
-            //changeTestBtn.Visibility = Visibility.Collapsed;
-            //delTestBtn.Visibility = Visibility.Collapsed;
-            //btnColumn.Visibility = Visibility.Collapsed;
         }
 
 
