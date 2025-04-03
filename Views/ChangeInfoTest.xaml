@@ -56,9 +56,15 @@
             <!--<Label Content="Back-img:" HorizontalAlignment="Left" Margin="15,5,0,5"
          VerticalAlignment="Center"  FontSize="10"  Grid.Column="0"/>-->
             <Button x:Name="imgBtn" Content="Добавить рисунок" HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" Click="addImgBtn_Click" FontSize="12" Height="20"/>
-            <Image x:Name="imageInTextBox"  Height="70" Stretch="Uniform"  MaxWidth="10"
-                HorizontalAlignment="Right" VerticalAlignment="Top" 
-                Margin="5,5,25,5"   Grid.Column="1"/>       
+            <Image x:Name="imageInTextBox" 
+               MinHeight="70" 
+               Width="200" 
+               Stretch="Uniform"  
+               MaxWidth="500"
+                HorizontalAlignment="Right" 
+               VerticalAlignment="Top" 
+               Margin="5,5,25,5"  
+               Grid.Column="1"/>
         </Grid>
         <Grid Grid.Row="4">
             <Grid.ColumnDefinitions>

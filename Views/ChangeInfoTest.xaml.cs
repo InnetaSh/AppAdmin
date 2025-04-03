@@ -30,15 +30,20 @@ namespace AppAdmin.Views
             tbChangeName.Text = _test.Title;
             tbTime.Text = _test.TimeSec.ToString();
             tbChangeDescription.Text = _test.Description;
-            if (!string.IsNullOrEmpty(_test.ImgSrc) && System.IO.File.Exists(_test.ImgSrc))
+
+            string fullImagesPath = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, $"img\\back\\{_test.ImgSrc}");
+            if (!string.IsNullOrEmpty(_test.ImgSrc) && System.IO.File.Exists(fullImagesPath))
             {
                 BitmapImage bitmap = new BitmapImage();
                 bitmap.BeginInit();
-                bitmap.UriSource = new Uri(_test.ImgSrc, UriKind.Absolute);
+                string fileUri = new Uri(fullImagesPath).AbsoluteUri;
+                bitmap.UriSource = new Uri(fileUri, UriKind.Absolute);
+
                 bitmap.CacheOption = BitmapCacheOption.OnLoad;
                 bitmap.EndInit();
 
                 imageInTextBox.Source = bitmap;
+
             }
         }
 

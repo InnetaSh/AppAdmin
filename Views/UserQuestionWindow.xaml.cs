@@ -261,14 +261,14 @@ namespace AppAdmin.Views
                     NextQuestionButton.Visibility = Visibility.Collapsed;
                     AnswersPanel.Children.Clear();
 
-                    var userInfo = new UserInfo();
-                    userInfo.CorrectAnswerCount = _isCorrectAnswer;
-                    userInfo.Points = _points;
-                    userInfo.TestTitle = _test.Title;
-                    userInfo.Token = _user.Token;
-                    userInfo.Time = _test.TimeSec - _timeRemaining;
-                    _user.UserInfos.Add(userInfo);
-                    SaveUserToBaseTable(userInfo);
+                    //var userInfo = new UserInfo();
+                    //userInfo.CorrectAnswerCount = _isCorrectAnswer;
+                    //userInfo.Points = _points;
+                    //userInfo.TestTitle = _test.Title;
+                    //userInfo.Token = _user.Token;
+                    //userInfo.Time = _test.TimeSec - _timeRemaining;
+                    //_user.UserInfos.Add(userInfo);
+                    //SaveUserToBaseTable(userInfo);
 
                     BackQuestionButton.Visibility = Visibility.Collapsed;
                     MenuQuestionButton.Visibility = Visibility.Visible;
