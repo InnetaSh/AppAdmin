@@ -132,11 +132,18 @@ namespace AppAdmin.Views
 
         private void GameOver()
         {
+            
+
             QuestionPanel.Visibility = Visibility.Collapsed;
             QuestionText.Visibility = Visibility.Collapsed;
+
+            BackQuestionButton.Visibility = Visibility.Collapsed;
             pnProgressBar.Visibility = Visibility.Collapsed;
             NextQuestionButton.Visibility = Visibility.Collapsed;
             AnswersPanel.Children.Clear();
+
+
+            MenuQuestionButton.Visibility = Visibility.Visible;
 
             var Text = $"Вы не прошли тест";
             var resultTextBlock = new TextBlock()
@@ -257,20 +264,14 @@ namespace AppAdmin.Views
                 {
                     QuestionPanel.Visibility = Visibility.Collapsed;
                     QuestionText.Visibility = Visibility.Collapsed;
+
+                    BackQuestionButton.Visibility = Visibility.Collapsed;
                     pnProgressBar.Visibility = Visibility.Collapsed;
                     NextQuestionButton.Visibility = Visibility.Collapsed;
                     AnswersPanel.Children.Clear();
 
-                    //var userInfo = new UserInfo();
-                    //userInfo.CorrectAnswerCount = _isCorrectAnswer;
-                    //userInfo.Points = _points;
-                    //userInfo.TestTitle = _test.Title;
-                    //userInfo.Token = _user.Token;
-                    //userInfo.Time = _test.TimeSec - _timeRemaining;
-                    //_user.UserInfos.Add(userInfo);
-                    //SaveUserToBaseTable(userInfo);
+             
 
-                    BackQuestionButton.Visibility = Visibility.Collapsed;
                     MenuQuestionButton.Visibility = Visibility.Visible;
 
 
