@@ -26,17 +26,25 @@
                     <ControlTemplate>
                         <Border  BorderBrush="Black" BorderThickness="2">
                             <StackPanel  Margin="5" HorizontalAlignment="Center" Orientation="Horizontal">
-                                <Image  x:Name="imgHeart" Source="../img/icon_heart.png" Stretch="Fill"  Margin="10,0,3,0"/>
-                                <TextBlock x:Name="tbHeart"   Text="{Binding CountHeart}" FontSize="24" FontWeight="Bold"  Margin="0,-5,10,0" Foreground="White"></TextBlock>
+                                <Image x:Name="imgHeart" Stretch="Fill" Margin="10,0,3,0">
+                                        <Image.Style>
+                                            <Style TargetType="Image">
+                                                <Setter Property="Source" Value="../img/icon_heart.png"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding CountHeart}" Value="0">
+                                                        <Setter Property="Source" Value="../img/icon_heart2.png"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Image.Style>
+                                    </Image>
+                                    <TextBlock x:Name="tbHeart"   Text="{Binding CountHeart}" FontSize="24" FontWeight="Bold"  Margin="0,-5,10,0" Foreground="White"></TextBlock>
                             </StackPanel>
                         </Border>
                     </ControlTemplate>
                 </TabItem.Template>
             </TabItem>
         </TabControl>
-        <TextBlock x:Name="tbHeartCount"   Text="5" FontSize="24" FontWeight="Bold"  Margin="10,50,10,0" Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Top" ></TextBlock>
-        <!--<Button  HorizontalAlignment="Right" VerticalAlignment="Top"  Width="50" Height="50" Margin="10,50,10,0" BorderBrush="{x:Null}" Background="{x:Null}" >
-            <Image Source="../img/icon_heart.png" Stretch="Fill"/>
-        </Button>-->
+        
     </Grid>
 </Window>

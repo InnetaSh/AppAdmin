@@ -264,7 +264,9 @@ namespace AppAdmin
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Ошибка при запросе: " + ex.Message, "Ошибка");
+                // MessageBox.Show("Ошибка при запросе: " + ex.Message, "Ошибка");
+                Error.Text = "Нет соединения с сервером!";
+                Error.Visibility = Visibility.Visible;
                 return null;
             }
         }
@@ -301,7 +303,9 @@ namespace AppAdmin
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Ошибка при запросе: " + ex.Message, "Ошибка");
+                //MessageBox.Show("Ошибка при запросе: " + ex.Message, "Ошибка");
+                Error.Text = "Нет соединения с сервером!";
+                Error.Visibility = Visibility.Visible;
                 return null;
             }
         }
@@ -342,7 +346,9 @@ namespace AppAdmin
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Ошибка при запросе: " + ex.Message, "Ошибка");
+                //MessageBox.Show("Ошибка при запросе: " + ex.Message, "Ошибка");
+                Error.Text = "Нет соединения с сервером!";
+                Error.Visibility = Visibility.Visible;
                 return null;
             }
         }
@@ -375,14 +381,18 @@ namespace AppAdmin
                     }
                     else
                     {
-                       // MessageBox.Show("Ошибка запроса: " + response.StatusCode, "Ошибка");
+                        // MessageBox.Show("Ошибка запроса: " + response.StatusCode, "Ошибка");
+                        Error.Text = "Нет соединения с сервером!";
+                        Error.Visibility = Visibility.Visible;
                         return null;
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Ошибка при запросе: " + ex.Message, "Ошибка");
+                // MessageBox.Show("Ошибка при запросе: " + ex.Message, "Ошибка");
+                Error.Text = "Нет соединения с сервером!";
+                Error.Visibility = Visibility.Visible;
                 return null;
             }
         }
